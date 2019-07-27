@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NewSplash</string>
+    <string name="settings">设置</string>
+    <string name="menu_photo">照片</string>
+    <string name="menu_album">分类</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_settings">设置</string>
+</resources>
