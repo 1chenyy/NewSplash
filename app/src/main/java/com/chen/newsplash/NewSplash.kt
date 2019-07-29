@@ -3,6 +3,7 @@ package com.chen.newsplash
 import android.app.Application
 import android.content.Context
 import android.os.Handler
+import com.tencent.mmkv.MMKV
 
 class NewSplash : Application() {
     companion object{
@@ -18,6 +19,7 @@ class NewSplash : Application() {
         context = applicationContext
         mainThread = android.os.Process.myTid()
         handler = Handler()
+        MMKV.initialize(applicationContext)
     }
 
 

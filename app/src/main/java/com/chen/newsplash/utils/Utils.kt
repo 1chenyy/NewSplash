@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.chen.newsplash.NewSplash
 import android.os.Process
+import android.text.TextUtils
 import com.chen.newsplash.R
 import java.io.Closeable
 import java.lang.Exception
@@ -53,5 +54,42 @@ object Utils {
         var height = style.getDimension(0,0f)
         style.recycle()
         return height
+    }
+
+    fun parseHeads(heads:okhttp3.Headers?){
+        var link = heads?.get("link")?:""
+        var nextLink = ""
+        if (!TextUtils.isEmpty(link)){
+            var links = link.split(",")
+            links.forEach {
+                if (it.contains(Const.LINK_NEXT))
+                    nextLink = it.trim().split(";")[0]
+                        .replace("<","")
+                        .replace(">","")
+            }
+        }
+        if (nextLink.startsWith("https://")){
+
+        }
+    }
+
+    fun generateID(pos:Int,type:Int):String{
+        return "id${pos}-${type}"
+    }
+
+    fun findPos(id:Int):Int{
+        if (id == R.id.nav_photo)
+            return 0
+        else if(id == R.id.nav_album)
+            return 1
+        else
+            return -1
+    }
+
+    fun getModeArg(mode:Int) : String= when(mode){
+        Const.MODEL_LATEST -> Const.MODEL_LATEST_ARG
+        Const.MODEL_OLDEST -> Const.MODEL_OLDEST_ARG
+        Const.MODEL_POPULAR -> Const.MODEL_POPULAR_ARG
+        else->Const.MODEL_LATEST_ARG
     }
 }

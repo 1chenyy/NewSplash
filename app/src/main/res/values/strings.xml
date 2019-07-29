@@ -14,4 +14,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading_err_retry">Load failed, drop - down retry</string>
+    <string name="page_normal">Normal</string>
+    <string name="page_curated">Curated</string>
+    <string name="label_latest">Latest</string>
+    <string name="label_oldest">Oldest</string>
+    <string name="label_popular">Popular</string>
+    <string name="label_random">Random</string>
 </resources>

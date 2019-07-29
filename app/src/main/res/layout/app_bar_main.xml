@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <import type="android.view.View" />
+
+
+        <variable
+            name="data"
+            type="com.chen.newsplash.mainactivity.databinding.MainActivityViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -37,17 +47,81 @@
             android:id="@+id/vp_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:elevation="6dp"-->
+        <!--app:layout_behavior=".ui.ScrollingFABBehavior"-->
+        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
+        <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
             android:elevation="6dp"
             app:layout_behavior=".ui.ScrollingFABBehavior"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:menu_colorNormal="#1a1a1a"
+            app:menu_colorPressed="#1a1a1a"
+
+
+            app:menu_labels_ellipsize="end"
+            app:menu_labels_singleLine="true">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_latest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_latest_white"
+                app:datamode="@{data.mode}"
+                app:fab_colorNormal="#1a1a1a"
+                app:fab_colorPressed="#1a1a1a"
+                app:fab_label="@string/label_latest"
+                app:fab_size="mini"
+                app:mode="@{0}" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_oldest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_no_latest_white"
+                app:datamode="@{data.mode}"
+                app:fab_colorNormal="#1a1a1a"
+                app:fab_colorPressed="#1a1a1a"
+                app:fab_label="@string/label_oldest"
+                app:fab_size="mini"
+                app:mode="@{1}" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_popular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_popular_white"
+                app:datamode="@{data.mode}"
+                app:fab_colorNormal="#1a1a1a"
+                app:fab_colorPressed="#1a1a1a"
+                app:fab_label="@string/label_popular"
+                app:fab_size="mini"
+                app:mode="@{2}" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_random"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_random_white"
+                app:datamode="@{data.mode}"
+                app:fab_colorNormal="#1a1a1a"
+                app:fab_colorPressed="#1a1a1a"
+                app:fab_label="@string/label_random"
+                app:fab_size="mini"
+                app:mode="@{3}" />
+        </com.github.clans.fab.FloatingActionMenu>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
