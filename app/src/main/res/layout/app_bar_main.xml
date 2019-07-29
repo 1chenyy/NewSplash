@@ -68,8 +68,7 @@
             app:layout_behavior=".ui.ScrollingFABBehavior"
             app:menu_colorNormal="#1a1a1a"
             app:menu_colorPressed="#1a1a1a"
-
-
+            android:visibility="@{data.pos==0?View.VISIBLE:View.GONE}"
             app:menu_labels_ellipsize="end"
             app:menu_labels_singleLine="true">
 

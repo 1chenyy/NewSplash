@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel: ViewModel() {
     var mode:MutableLiveData<Int> = MutableLiveData()
-    var modeLabel:MutableLiveData<String> = MutableLiveData()
+    var pos:MutableLiveData<Int> = MutableLiveData()
 
-
+    init {
+        mode.value = 0
+        pos.value = 0
+    }
 }

@@ -7,10 +7,11 @@
     <string name="menu_search">搜索</string>
     <string name="menu_settings">设置</string>
     <string name="loading_err_retry">加载失败，下拉界面重试</string>
-    <string name="page_normal">普通</string>
+    <string name="page_normal">全部</string>
     <string name="page_curated">精选</string>
     <string name="label_latest">最新的</string>
     <string name="label_oldest">最旧的</string>
     <string name="label_popular">最受欢迎的</string>
     <string name="label_random">随机的</string>
+    <string name="total_photos">张照片</string>
 </resources>

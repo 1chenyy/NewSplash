@@ -11,27 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 import com.chen.newsplash.databinding.FragmentPhotoBinding
-import com.chen.newsplash.mainactivity.adapter.PhotoItem
 import com.chen.newsplash.mainactivity.databinding.PhotoViewModel
 import com.chen.newsplash.models.event.ModeChangeEvent
-import com.chen.newsplash.models.photos.Photo
-import com.chen.newsplash.net.RetrofitManager
-import com.chen.newsplash.utils.Const
-import com.chen.newsplash.utils.LoadingState
-import com.chen.newsplash.utils.LogUtil
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.GenericItem
-import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
-import com.mikepenz.fastadapter.listeners.EventHook
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 abstract class BaseFragment : Fragment() {
     private lateinit var binding:FragmentPhotoBinding
@@ -59,7 +48,7 @@ abstract class BaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configRecyclerView()
         configSwipeRefresh()
-        loadPhotos();
+        firstLoad();
     }
 
     override fun onStart() {
@@ -107,7 +96,7 @@ abstract class BaseFragment : Fragment() {
 
     abstract fun onPhotoClick(item:GenericItem,pos:Int)
 
-    abstract fun loadPhotos()
+    abstract fun firstLoad()
 
     abstract fun downSwipeLoad()
 

@@ -1,5 +1,6 @@
 package com.chen.newsplash.net
 
+import com.chen.newsplash.models.collections.Collection
 import com.chen.newsplash.models.photos.Photo
 import io.reactivex.Maybe
 import retrofit2.Response
@@ -15,4 +16,10 @@ interface UnsplashAPI {
     fun getCurated(@Query("page")page:Int,
                    @Query("per_page")per_page:Int,
                    @Query("order_by")order_by:String):Maybe<List<Photo>>
+    @GET("collections")
+    fun getCollection(@Query("page")page:Int,
+                      @Query("per_page")per_page:Int):Maybe<List<Collection>>
+    @GET("collections/featured")
+    fun getFeatured(@Query("page")page:Int,
+                    @Query("per_page")per_page:Int):Maybe<List<Collection>>
 }

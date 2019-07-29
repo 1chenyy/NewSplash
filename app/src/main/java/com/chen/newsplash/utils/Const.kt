@@ -25,4 +25,8 @@ object Const {
     val MODEL_OLDEST_ARG = "oldest"
     val MODEL_POPULAR_ARG = "popular"
     val MODEL_RANDOM_ARG = "random"
+    val TAG_PHOTO_COMMON = "photo"
+    val TAG_PHOTO_CURATED = "photo_curated"
+    val TAG_COLLECTION_COMMON = "collection"
+    val TAG_COLLECTION_CURATED = "collection_curated"
 }

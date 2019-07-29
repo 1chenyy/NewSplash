@@ -18,9 +18,11 @@ import com.chen.newsplash.R
 import com.chen.newsplash.databinding.ActivityMainBinding
 import com.chen.newsplash.mainactivity.adapter.PagerAdapter
 import com.chen.newsplash.mainactivity.databinding.MainActivityViewModel
+import com.chen.newsplash.mainactivity.fragment.FragmentFactory
 import com.chen.newsplash.mainactivity.fragment.PhotoFragment
 import com.chen.newsplash.models.event.ModeChangeEvent
 import com.chen.newsplash.utils.Const
+import com.chen.newsplash.utils.LogUtil
 import com.chen.newsplash.utils.Utils
 import com.github.clans.fab.FloatingActionMenu
 import com.tencent.mmkv.MMKV
@@ -53,12 +55,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initPhotoViewPager() {
         vp = binding.main.vpContent
         adapter = PagerAdapter(supportFragmentManager)
-        adapter.addItem(PhotoFragment.newInstance(Const.TYPE_COMMON,Const.POS_PHOTO),getString(R.string.page_normal))
-        adapter.addItem(PhotoFragment.newInstance(Const.TYPE_CURATED,Const.POS_PHOTO),getString(R.string.page_curated))
+        setPhotoFragment()
         vp.adapter = adapter
         binding.main.tab.setupWithViewPager(vp)
         vp.addOnPageChangeListener(this)
 
+    }
+
+    private fun setPhotoFragment(){
+        LogUtil.d(this.javaClass,"开始显示图片")
+        adapter.clear()
+        adapter.addItem(FragmentFactory.getFragment(Const.TAG_PHOTO_COMMON),getString(R.string.page_normal))
+        adapter.addItem(FragmentFactory.getFragment(Const.TAG_PHOTO_CURATED),getString(R.string.page_curated))
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun setCollectionFragment(){
+        LogUtil.d(this.javaClass,"开始显示集合")
+        adapter.clear()
+        adapter.addItem(FragmentFactory.getFragment(Const.TAG_COLLECTION_COMMON),getString(R.string.page_normal))
+        adapter.addItem(FragmentFactory.getFragment(Const.TAG_COLLECTION_CURATED),getString(R.string.page_curated))
+        adapter.notifyDataSetChanged()
     }
 
     private fun configDrawerLayoutAndToolBar() {
@@ -104,10 +121,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         current = item.itemId
         when (current) {
             R.id.nav_photo -> {
-
+                data.pos.value = 0
+                setPhotoFragment()
             }
             R.id.nav_album -> {
-
+                data.pos.value = 1
+                setCollectionFragment()
             }
             R.id.nav_search -> {
 
