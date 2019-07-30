@@ -73,7 +73,6 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-
     private fun configRecyclerView() {
         rv = binding.rv
         rv.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)

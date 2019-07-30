@@ -2,6 +2,8 @@ package com.chen.newsplash.models.photos
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 
 data class Photo(
     @SerializedName("color")
@@ -21,4 +23,4 @@ data class Photo(
     @SerializedName("user")
     var user: User
 
-)
+) : Serializable

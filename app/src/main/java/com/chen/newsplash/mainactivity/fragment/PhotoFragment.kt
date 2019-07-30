@@ -1,10 +1,12 @@
 package com.chen.newsplash.mainactivity.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import com.chen.newsplash.mainactivity.adapter.PhotoItem
 import com.chen.newsplash.models.event.ModeChangeEvent
 import com.chen.newsplash.models.photos.Photo
 import com.chen.newsplash.net.RetrofitManager
+import com.chen.newsplash.photoactivity.PhotoActivity
 import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LoadingState
 import com.chen.newsplash.utils.LogUtil
@@ -36,8 +38,11 @@ class PhotoFragment : BaseFragment() {
     }
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
-        LogUtil.d(this.javaClass, "onPhotoClick")
-
+        if(item is PhotoItem){
+            var i = Intent(context,PhotoActivity::class.java)
+            i.putExtra(Const.ARG_PHOTO,item.getData())
+            context?.startActivity(i)
+        }
     }
 
     override fun downSwipeLoad() {

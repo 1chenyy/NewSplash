@@ -26,6 +26,10 @@ class PhotoItem() : AbstractItem<PhotoViewHolder>() {
         return this
     }
 
+    fun getData():Photo{
+        return photo
+    }
+
     class UserClickEvent : ClickEventHook<PhotoItem>(){
         override fun onBindMany(viewHolder: RecyclerView.ViewHolder): List<View>? {
             if (viewHolder is PhotoViewHolder)

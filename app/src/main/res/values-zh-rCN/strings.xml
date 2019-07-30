@@ -14,4 +14,13 @@
     <string name="label_popular">最受欢迎的</string>
     <string name="label_random">随机的</string>
     <string name="total_photos">张照片</string>
+    <string name="photo_create">创建于：</string>
+    <string name="exif_manufacturer">设备制造商</string>
+    <string name="exif_size">尺寸</string>
+    <string name="exif_model">设备型号</string>
+    <string name="exif_focal">焦距</string>
+    <string name="exif_aperture">光圈</string>
+    <string name="exif_exposure">快门时间</string>
+    <string name="exif_iso">ISO</string>
+    <string name="exif_color">颜色</string>
 </resources>

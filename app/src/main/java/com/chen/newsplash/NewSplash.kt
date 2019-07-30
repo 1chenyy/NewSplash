@@ -3,6 +3,9 @@ package com.chen.newsplash
 import android.app.Application
 import android.content.Context
 import android.os.Handler
+import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.glide.GlideImageLoader
+import com.github.piasy.biv.view.BigImageView
 import com.tencent.mmkv.MMKV
 
 class NewSplash : Application() {
@@ -20,6 +23,7 @@ class NewSplash : Application() {
         mainThread = android.os.Process.myTid()
         handler = Handler()
         MMKV.initialize(applicationContext)
+        BigImageViewer.initialize(GlideImageLoader.with(context))
     }
 
 

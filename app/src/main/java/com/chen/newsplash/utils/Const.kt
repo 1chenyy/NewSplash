@@ -1,5 +1,7 @@
 package com.chen.newsplash.utils
 
+import com.chen.newsplash.R
+
 object Const {
     val TYPE_COMMON = 0
     val TYPE_CURATED = 1
@@ -29,4 +31,16 @@ object Const {
     val TAG_PHOTO_CURATED = "photo_curated"
     val TAG_COLLECTION_COMMON = "collection"
     val TAG_COLLECTION_CURATED = "collection_curated"
+    val ARG_PHOTO = "photo"
+    val ARG_ARG = "arg"
+    val LIST_EXIF_ICON = mutableListOf<Int>(
+        R.drawable.ic_store_mall_directory_black_24dp, R.drawable.ic_photo_camera_black_24dp,
+        R.drawable.ic_aspect_ratio_black_24dp, R.drawable.ic_center_focus_strong_black_24dp,
+        R.drawable.ic_filter_tilt_shift_black_24dp, R.drawable.ic_timelapse_black_24dp,
+        R.drawable.ic_exposure_black_24dp, R.drawable.ic_color_lens_black_24dp
+    )
+    val LIST_EXIF_TITLE = mutableListOf<Int>(
+        R.string.exif_manufacturer,R.string.exif_model,R.string.exif_size,R.string.exif_focal,
+        R.string.exif_aperture,R.string.exif_exposure,R.string.exif_iso,R.string.exif_color
+    )
 }

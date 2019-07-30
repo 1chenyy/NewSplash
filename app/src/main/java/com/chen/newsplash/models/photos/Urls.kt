@@ -2,6 +2,7 @@ package com.chen.newsplash.models.photos
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Urls(
     @SerializedName("full")
@@ -14,4 +15,4 @@ data class Urls(
     var small: String,
     @SerializedName("thumb")
     var thumb: String
-)
+) : Serializable
