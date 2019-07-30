@@ -2,6 +2,7 @@ package com.chen.newsplash.models.collections
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ProfileImage(
     @SerializedName("large")
@@ -10,4 +11,4 @@ data class ProfileImage(
     var medium: String,
     @SerializedName("small")
     var small: String
-)
+): Serializable

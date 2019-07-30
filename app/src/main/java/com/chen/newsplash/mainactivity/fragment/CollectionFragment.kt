@@ -1,6 +1,8 @@
 package com.chen.newsplash.mainactivity.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import com.chen.newsplash.collectionactivity.CollectionActicity
 import com.chen.newsplash.mainactivity.adapter.CollectionItem
 import com.chen.newsplash.mainactivity.adapter.PhotoItem
 import com.chen.newsplash.models.collections.Collection
@@ -27,7 +29,11 @@ class CollectionFragment : BaseFragment() {
         pos = arguments?.getInt(Const.ARG_POS, -1) ?: -1
     }
     override fun onPhotoClick(item: GenericItem, pos: Int) {
-        LogUtil.d(this.javaClass, "onPhotoClick")
+        if(item is CollectionItem){
+            var i = Intent(context,CollectionActicity::class.java)
+            i.putExtra(Const.ARG_PHOTO,item.getData())
+            context?.startActivity(i)
+        }
     }
 
     override fun firstLoad() {

@@ -24,6 +24,8 @@ class CollectionItem() : AbstractItem<CollectionViewHolder>() {
         return this
     }
 
+    fun getData() = collection
+
     class UserClickEvent : ClickEventHook<CollectionItem>(){
         override fun onClick(v: View, position: Int, fastAdapter: FastAdapter<CollectionItem>, item: CollectionItem) {
             LogUtil.d(this.javaClass,"ClickEventHook")

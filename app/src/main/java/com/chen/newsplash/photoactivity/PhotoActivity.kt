@@ -108,13 +108,13 @@ class PhotoActivity : AppCompatActivity() {
 
     private fun configExif(bean:com.chen.newsplash.models.photo.Photo) {
         var contents = ArrayList<String>()
-        contents.add(bean.exif.make)
-        contents.add(bean.exif.model)
+        contents.add(bean.exif.make?:Utils.getString(R.string.none))
+        contents.add(bean.exif.model?:Utils.getString(R.string.none))
         contents.add("${bean.width} x ${bean.height}")
-        contents.add("${bean.exif.focalLength} mm")
-        contents.add("f/${bean.exif.aperture}")
-        contents.add("${bean.exif.exposureTime} s")
-        contents.add("${bean.exif.iso}")
+        contents.add("${bean.exif.focalLength?:Utils.getString(R.string.none)} mm")
+        contents.add("f/${bean.exif.aperture?:Utils.getString(R.string.none)}")
+        contents.add("${bean.exif.exposureTime?:Utils.getString(R.string.none)} s")
+        contents.add("${if(bean.exif.iso!=0)bean.exif.iso else Utils.getString(R.string.none)}")
         contents.add("${bean.color}")
         var exifAdapter = ExifAdapter()
         var rvExif = binding.rvExif

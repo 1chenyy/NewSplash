@@ -2,6 +2,7 @@ package com.chen.newsplash.models.collections
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CoverPhoto(
 
@@ -14,4 +15,4 @@ data class CoverPhoto(
     @SerializedName("urls")
     var urls: Urls
 
-)
+): Serializable

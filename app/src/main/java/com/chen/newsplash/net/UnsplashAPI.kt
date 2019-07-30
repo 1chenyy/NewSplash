@@ -10,19 +10,38 @@ import retrofit2.http.Query
 
 interface UnsplashAPI {
     @GET("photos")
-    fun getPhotos(@Query("page")page:Int,
-                  @Query("per_page")per_page:Int,
-                  @Query("order_by")order_by:String):Maybe<List<Photo>>
+    fun getPhotos(
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int,
+        @Query("order_by") order_by: String
+    ): Maybe<List<Photo>>
+
     @GET("photos/curated")
-    fun getCurated(@Query("page")page:Int,
-                   @Query("per_page")per_page:Int,
-                   @Query("order_by")order_by:String):Maybe<List<Photo>>
+    fun getCurated(
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int,
+        @Query("order_by") order_by: String
+    ): Maybe<List<Photo>>
+
     @GET("collections")
-    fun getCollection(@Query("page")page:Int,
-                      @Query("per_page")per_page:Int):Maybe<List<Collection>>
+    fun getCollection(
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Maybe<List<Collection>>
+
     @GET("collections/featured")
-    fun getFeatured(@Query("page")page:Int,
-                    @Query("per_page")per_page:Int):Maybe<List<Collection>>
+    fun getFeatured(
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Maybe<List<Collection>>
+
     @GET("photos/{id}")
-    fun getPhoto(@Path("id")id:String):Maybe<com.chen.newsplash.models.photo.Photo>
+    fun getPhoto(@Path("id") id: String): Maybe<com.chen.newsplash.models.photo.Photo>
+
+    @GET("collections/{id}/photos")
+    fun getPhotosOfCollection(
+        @Path("id") id: String,
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Maybe<List<Photo>>
 }

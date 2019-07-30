@@ -6,7 +6,7 @@
     <string name="menu_album">分类</string>
     <string name="menu_search">搜索</string>
     <string name="menu_settings">设置</string>
-    <string name="loading_err_retry">加载失败，下拉界面重试</string>
+    <string name="loading_err_swipe_retry">加载失败，下拉界面重试</string>
     <string name="page_normal">全部</string>
     <string name="page_curated">精选</string>
     <string name="label_latest">最新的</string>
@@ -23,4 +23,7 @@
     <string name="exif_exposure">快门时间</string>
     <string name="exif_iso">ISO</string>
     <string name="exif_color">颜色</string>
+    <string name="none">未知</string>
+    <string name="user_create">创建于</string>
+    <string name="loading_err_tap_retry">加载失败，点击上图重试</string>
 </resources>

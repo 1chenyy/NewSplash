@@ -2,6 +2,7 @@ package com.chen.newsplash.models.collections
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Collection(
     @SerializedName("id")
@@ -15,5 +16,7 @@ data class Collection(
     @SerializedName("tags")
     var tags: List<Tag>,
     @SerializedName("cover_photo")
-    var coverPhoto: CoverPhoto
-)
+    var coverPhoto: CoverPhoto,
+    @SerializedName("published_at")
+    var publishedAt:String
+):Serializable

@@ -14,7 +14,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="loading_err_retry">Load failed, drop - down retry</string>
+    <string name="loading_err_swipe_retry">Load failed, drop - down retry</string>
     <string name="page_normal">Normal</string>
     <string name="page_curated">Curated</string>
     <string name="label_latest">Latest</string>
@@ -32,4 +32,8 @@
     <string name="exif_exposure">ExposureTime</string>
     <string name="exif_iso">ISO</string>
     <string name="exif_color">Color</string>
+    <string name="none">None</string>
+    <string name="title_activity_collection_acticity">CollectionActicity</string>
+    <string name="user_create">Created</string>
+    <string name="loading_err_tap_retry">Failed to load. Click the figure above to retry</string>
 </resources>
