@@ -1,6 +1,8 @@
 package com.chen.newsplash.utils
 
+import android.os.Environment
 import com.chen.newsplash.R
+import java.io.File
 
 object Const {
     val TYPE_COMMON = 0
@@ -47,4 +49,5 @@ object Const {
     val ARG_NAME = "name"
     val ARG_USERNAME = "username"
     val LIST_ORIENTATION = mutableListOf("","portrait","landscape","squarish")
+    val DIR_DOWNLAOD = File(Environment.getExternalStorageDirectory(),"NewSplash")
 }

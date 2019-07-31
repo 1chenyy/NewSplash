@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LogUtil
 import com.chen.newsplash.utils.Utils
 import com.github.clans.fab.FloatingActionMenu
+import com.tbruyelle.rxpermissions2.RxPermissions
 import com.tencent.mmkv.MMKV
 import org.greenrobot.eventbus.EventBus
 

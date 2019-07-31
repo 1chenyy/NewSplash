@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.chen.newsplash.utils.DownloadState" />
+
         <variable
             name="data"
             type="com.chen.newsplash.photoactivity.databinding.PhotoActivityViewModel" />
@@ -136,10 +138,11 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/iv_eye"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:background="?android:attr/selectableItemBackground"
                         android:src="@drawable/ic_remove_red_eye_black_24dp"
                         app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -158,15 +161,26 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_eye" />
 
-                    <ImageView
+                    <ImageButton
+                        android:visibility="@{data.downloadState != DownloadState.DOWNLOADING?View.VISIBLE:View.GONE}"
                         android:id="@+id/iv_download"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_file_download_black_24dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@{data.downloadState == DownloadState.NO_DOWNLOAD?@drawable/ic_file_download_black_24dp:@drawable/ic_file_download_green_24dp}"
                         app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintLeft_toRightOf="@id/iv_eye"
                         app:layout_constraintRight_toLeftOf="@id/iv_favorite"
                         app:layout_constraintTop_toBottomOf="@id/ib_user" />
+
+                    <ProgressBar
+                        android:visibility="@{data.downloadState == DownloadState.DOWNLOADING?View.VISIBLE:View.GONE}"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintLeft_toRightOf="@id/iv_eye"
+                        app:layout_constraintRight_toLeftOf="@id/iv_favorite"
+                        app:layout_constraintTop_toBottomOf="@id/ib_user"/>
 
                     <TextView
                         android:id="@+id/tv_download"
@@ -180,10 +194,11 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_download" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/iv_favorite"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:background="?android:attr/selectableItemBackground"
                         android:src="@drawable/ic_favorite_black_24dp"
                         app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintLeft_toRightOf="@id/iv_download"

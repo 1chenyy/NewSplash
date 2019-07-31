@@ -4,7 +4,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil
@@ -22,26 +24,29 @@ import com.chen.newsplash.photoactivity.adapter.CollectionAdapter
 import com.chen.newsplash.photoactivity.adapter.ExifAdapter
 import com.chen.newsplash.photoactivity.adapter.TagItem
 import com.chen.newsplash.photoactivity.databinding.PhotoActivityViewModel
-import com.chen.newsplash.utils.Const
-import com.chen.newsplash.utils.LoadingState
-import com.chen.newsplash.utils.LogUtil
-import com.chen.newsplash.utils.Utils
+import com.chen.newsplash.utils.*
+import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericAdapter
 import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
+import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.security.Permission
 
 class PhotoActivity : AppCompatActivity() {
     var actionBar:ActionBar? = null
     lateinit var photo:Photo
     lateinit var binding:ActivityPhotoBinding
     lateinit var data:PhotoActivityViewModel
+    var hasPermissions:Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseBundle(intent)
+        requestPermission()
         binding = DataBindingUtil.setContentView(this,R.layout.activity_photo)
         data = ViewModelProviders.of(this).get(PhotoActivityViewModel::class.java)
         binding.lifecycleOwner = this
@@ -50,7 +55,39 @@ class PhotoActivity : AppCompatActivity() {
         configTopView()
         binding.ivError.setOnClickListener { data.state.value = LoadingState.LOADING;loadData() }
         loadData()
+        configClickEvent()
     }
+
+    private fun requestPermission() {
+        RxPermissions(this)
+            .request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            .subscribe({ if (it) hasPermissions = true else hasPermissions = false})
+    }
+
+    private fun configClickEvent() {
+        binding.ivEye.setOnClickListener {  }
+        binding.ivDownload.setOnClickListener { onDownloadClick() }
+        binding.ivFavorite.setOnClickListener {  }
+    }
+
+    private fun onDownloadClick() {
+        when(data.downloadState.value){
+            DownloadState.NO_DOWNLOAD->{}
+            DownloadState.DOWNLOADED->{}
+            DownloadState.DOWNLOADING->{}
+        }
+    }
+
+    private fun checkAndDownload() {
+        var dir = File(Environment.getExternalStorageDirectory(),"NewSplash")
+        if(!dir.exists())
+            dir.mkdirs()
+        if (dir.list().contains("${photo.id}.jpg")){
+
+        }
+        println(dir.absoluteFile)
+    }
+
     private lateinit var disposable:Disposable
     private fun loadData() {
         LogUtil.d(this.javaClass,"开始加载${photo.id}信息")
@@ -79,6 +116,7 @@ class PhotoActivity : AppCompatActivity() {
         data.time.value = "${Utils.getString(R.string.photo_create)}${bean.createdAt.substring(0,10)}"
         data.eye.value = "${bean.views}"
         data.download.value = "${bean.downloads}"
+        data.downloadState.value = if(Utils.checkFile("${photo.id}.jpg"))DownloadState.DOWNLOADED else DownloadState.NO_DOWNLOAD
         data.favorite.value = "${bean.likes}"
         configExif(bean)
         configTag(bean)

@@ -109,4 +109,10 @@ object Utils {
         var imm:InputMethodManager = NewSplash.context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(v.windowToken,0)
     }
+
+    fun checkFile(name:String):Boolean{
+        if (!Const.DIR_DOWNLAOD.exists())
+            Const.DIR_DOWNLAOD.mkdirs()
+        return Const.DIR_DOWNLAOD.list().contains(name)
+    }
 }
