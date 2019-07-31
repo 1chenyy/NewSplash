@@ -36,4 +36,15 @@
     <string name="title_activity_collection_acticity">CollectionActicity</string>
     <string name="user_create">Created</string>
     <string name="loading_err_tap_retry">Failed to load. Click the figure above to retry</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="loading">Londing</string>
+    <string name="page_photo">Photo</string>
+    <string name="page_like">Like</string>
+    <string name="page_collection">Collection</string>
+    <string name="loading_nodata">No data</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="search_none">None</string>
+    <string name="search_portait">Portait</string>
+    <string name="search_landscape">Landscape</string>
+    <string name="search_square">Square</string>
 </resources>

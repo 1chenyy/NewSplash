@@ -48,6 +48,7 @@ class PhotoActivity : AppCompatActivity() {
         binding.data = data
         configToolbar()
         configTopView()
+        binding.ivError.setOnClickListener { data.state.value = LoadingState.LOADING;loadData() }
         loadData()
     }
     private lateinit var disposable:Disposable
@@ -91,6 +92,7 @@ class PhotoActivity : AppCompatActivity() {
         adapter.results = bean.relatedCollections.results
         vp.adapter = adapter
         binding.indicator.setViewPager(vp)
+
     }
 
     private fun configTag(bean: com.chen.newsplash.models.photo.Photo) {
@@ -131,6 +133,7 @@ class PhotoActivity : AppCompatActivity() {
     private fun configTopView() {
         binding.scl.setBackgroundColor(Color.parseColor(photo.color))
         binding.ivTop.showImage(Uri.parse(photo.urls.regular))
+        binding.ibUser.setOnClickListener { v-> Utils.startUserActivity(this,photo.user.username,photo.user.name) }
     }
 
     private fun configToolbar() {

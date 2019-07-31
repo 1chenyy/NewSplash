@@ -1,11 +1,13 @@
 package com.chen.newsplash.mainactivity.adapter
 
+import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.chen.newsplash.R
 import com.chen.newsplash.mainactivity.adapter.viewholder.CollectionViewHolder
 import com.chen.newsplash.models.collections.Collection
 import com.chen.newsplash.utils.LogUtil
+import com.chen.newsplash.utils.Utils
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
@@ -26,9 +28,9 @@ class CollectionItem() : AbstractItem<CollectionViewHolder>() {
 
     fun getData() = collection
 
-    class UserClickEvent : ClickEventHook<CollectionItem>(){
+    class UserClickEvent(var context: Context) : ClickEventHook<CollectionItem>(){
         override fun onClick(v: View, position: Int, fastAdapter: FastAdapter<CollectionItem>, item: CollectionItem) {
-            LogUtil.d(this.javaClass,"ClickEventHook")
+            Utils.startUserActivity(context,item.collection.user.username,item.collection.user.name)
         }
 
         override fun onBindMany(viewHolder: RecyclerView.ViewHolder): List<View>? {

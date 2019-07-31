@@ -5,6 +5,7 @@ import com.chen.newsplash.R
 object Const {
     val TYPE_COMMON = 0
     val TYPE_CURATED = 1
+    val TYPE_LIKE = 2
     val POS_PHOTO = 0
     val POS_COLLECTION = 1
     val ARG_TYPE = "type"
@@ -33,14 +34,17 @@ object Const {
     val TAG_COLLECTION_CURATED = "collection_curated"
     val ARG_PHOTO = "photo"
     val ARG_ARG = "arg"
-    val LIST_EXIF_ICON = mutableListOf<Int>(
+    val LIST_EXIF_ICON = mutableListOf(
         R.drawable.ic_store_mall_directory_black_24dp, R.drawable.ic_photo_camera_black_24dp,
         R.drawable.ic_aspect_ratio_black_24dp, R.drawable.ic_center_focus_strong_black_24dp,
         R.drawable.ic_filter_tilt_shift_black_24dp, R.drawable.ic_timelapse_black_24dp,
         R.drawable.ic_exposure_black_24dp, R.drawable.ic_color_lens_black_24dp
     )
-    val LIST_EXIF_TITLE = mutableListOf<Int>(
+    val LIST_EXIF_TITLE = mutableListOf(
         R.string.exif_manufacturer,R.string.exif_model,R.string.exif_size,R.string.exif_focal,
         R.string.exif_aperture,R.string.exif_exposure,R.string.exif_iso,R.string.exif_color
     )
+    val ARG_NAME = "name"
+    val ARG_USERNAME = "username"
+    val LIST_ORIENTATION = mutableListOf("","portrait","landscape","squarish")
 }

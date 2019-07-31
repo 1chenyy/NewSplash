@@ -1,5 +1,6 @@
 package com.chen.newsplash.mainactivity
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.chen.newsplash.mainactivity.databinding.MainActivityViewModel
 import com.chen.newsplash.mainactivity.fragment.FragmentFactory
 import com.chen.newsplash.mainactivity.fragment.PhotoFragment
 import com.chen.newsplash.models.event.ModeChangeEvent
+import com.chen.newsplash.searchactivity.SearchActivity
 import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LogUtil
 import com.chen.newsplash.utils.Utils
@@ -106,6 +108,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        navView.menu.getItem(current).isChecked = true
+    }
+
     fun generateKey():String = Utils.generateID(Utils.findPos(navView.checkedItem?.itemId?:0),vp.currentItem)
 
     override fun onBackPressed() {
@@ -118,17 +125,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        current = item.itemId
-        when (current) {
+
+        when (item.itemId) {
             R.id.nav_photo -> {
+                current = 0
                 data.pos.value = 0
                 setPhotoFragment()
             }
             R.id.nav_album -> {
+                current = 1
                 data.pos.value = 1
                 setCollectionFragment()
             }
             R.id.nav_search -> {
+
+                startActivity(Intent(this,SearchActivity::class.java))
 
             }
             R.id.nav_settings -> {

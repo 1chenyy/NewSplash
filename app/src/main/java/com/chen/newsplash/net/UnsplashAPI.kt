@@ -2,6 +2,8 @@ package com.chen.newsplash.net
 
 import com.chen.newsplash.models.collections.Collection
 import com.chen.newsplash.models.photos.Photo
+import com.chen.newsplash.models.search.SearchResult
+import com.chen.newsplash.models.user.User
 import io.reactivex.Maybe
 import retrofit2.Response
 import retrofit2.http.GET
@@ -44,4 +46,43 @@ interface UnsplashAPI {
         @Query("page") page: Int,
         @Query("per_page") per_page: Int
     ): Maybe<List<Photo>>
+
+    @GET("users/{username}")
+    fun getUser(@Path("username") username: String): Maybe<User>
+
+    @GET("/users/{username}/photos")
+    fun getPhotosOfUser(
+        @Path("username") username: String,
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Maybe<List<Photo>>
+
+    @GET("/users/{username}/likes")
+    fun getLikePhotosOfUser(
+        @Path("username") username: String,
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Maybe<List<Photo>>
+
+    @GET("/users/{username}/collections")
+    fun getCollectionsOfUser(
+        @Path("username") username: String,
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Maybe<List<Collection>>
+
+    @GET("/search/photos")
+    fun searchPhotosNoFilter(
+        @Query("query")query:String,
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
+    ): Maybe<SearchResult>
+
+    @GET("/search/photos")
+    fun searchPhotosWithFilter(
+        @Query("query")query:String,
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int,
+        @Query("orientation")orientation:String
+    ): Maybe<SearchResult>
 }

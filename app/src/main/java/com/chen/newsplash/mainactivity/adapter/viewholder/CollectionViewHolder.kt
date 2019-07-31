@@ -29,7 +29,7 @@ class CollectionViewHolder(itemView: View): FastAdapter.ViewHolder<CollectionIte
             .apply(RequestOptions.circleCropTransform())
             .into(ibUserImage)
 
-        var hight:Float = (Utils.SCREEN_WIDTH * item.collection.coverPhoto.height) / (item.collection.coverPhoto.width.toFloat())
+        var hight:Float = (Utils.SCREEN_WIDTH * item.collection.coverPhoto?.height?:1600) / (item.collection.coverPhoto?.width?:900).toFloat()
         ivPreview.minimumHeight = hight.toInt()
         ivPreview.setBackgroundColor(Color.parseColor(item.collection.coverPhoto.color))
         Glide.with(this.itemView.context)

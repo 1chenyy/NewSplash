@@ -3,7 +3,7 @@
     <string name="app_name">NewSplash</string>
     <string name="settings">设置</string>
     <string name="menu_photo">照片</string>
-    <string name="menu_album">分类</string>
+    <string name="menu_album">相册</string>
     <string name="menu_search">搜索</string>
     <string name="menu_settings">设置</string>
     <string name="loading_err_swipe_retry">加载失败，下拉界面重试</string>
@@ -26,4 +26,13 @@
     <string name="none">未知</string>
     <string name="user_create">创建于</string>
     <string name="loading_err_tap_retry">加载失败，点击上图重试</string>
+    <string name="loading">加载中</string>
+    <string name="page_photo">照片</string>
+    <string name="page_collection">相册</string>
+    <string name="page_like">喜欢</string>
+    <string name="loading_nodata">没有任何数据</string>
+    <string name="search_none">不限</string>
+    <string name="search_portait">纵向</string>
+    <string name="search_landscape">横向</string>
+    <string name="search_square">正方形</string>
 </resources>

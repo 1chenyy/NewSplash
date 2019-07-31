@@ -3,13 +3,13 @@
 
     <data>
 
-        <import type="com.chen.newsplash.utils.LoadingState" />
-
         <import type="android.view.View" />
+
+        <import type="com.chen.newsplash.utils.LoadingState" />
 
         <variable
             name="data"
-            type="com.chen.newsplash.collectionactivity.databinding.CollectionActivityViewModel" />
+            type="com.chen.newsplash.searchactivity.databinding.SearchActivityViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,69 +17,60 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".collectionactivity.CollectionActicity">
+        tools:context=".searchactivity.SearchActivity">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay.Dark">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
+                android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/sp_optional"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown" />
+
+                <EditText
+                    android:id="@+id/et"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@={data.query}" />
 
                 <ImageButton
-                    android:id="@+id/ib_user"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="?android:attr/selectableItemBackground"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:src="@drawable/ic_search_black_24dp" />
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@{data.userAndName}"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ib_user" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#55919191"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_name" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -101,7 +92,7 @@
                 android:layout_height="96dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/ic_loading_error"
-                android:visibility="@{data.state == LoadingState.LOADING_FAILED?View.VISIBLE:View.GONE}"
+                android:visibility="@{(data.state == LoadingState.LOADING_FAILED || data.state == LoadingState.LOADING_NO_DATA)?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -110,8 +101,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/loading_err_tap_retry"
-                android:visibility="@{data.state == LoadingState.LOADING_FAILED?View.VISIBLE:View.GONE}"
+                android:text="@{data.state == LoadingState.LOADING_FAILED?@string/loading_err_tap_retry:@string/loading_nodata}"
+                android:visibility="@{(data.state == LoadingState.LOADING_FAILED || data.state == LoadingState.LOADING_NO_DATA)?View.VISIBLE:View.GONE}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_error" />
@@ -126,7 +117,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

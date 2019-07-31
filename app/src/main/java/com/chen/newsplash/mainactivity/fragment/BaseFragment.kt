@@ -19,6 +19,7 @@ import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
+import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -28,7 +29,8 @@ abstract class BaseFragment : Fragment() {
     lateinit var rv:RecyclerView
     val itemAdapter = GenericItemAdapter()
     val footerAdapter = GenericItemAdapter()
-    val fastAdapter : GenericFastAdapter= FastAdapter.with(mutableListOf(itemAdapter,footerAdapter))
+    val errAdapter = GenericItemAdapter()
+    val fastAdapter : GenericFastAdapter= FastAdapter.with(mutableListOf(errAdapter,itemAdapter,footerAdapter))
     lateinit var listener: EndlessRecyclerOnScrollListener
     lateinit var swipeRefresh:SwipeRefreshLayout
 
@@ -59,6 +61,12 @@ abstract class BaseFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
+    }
+    var disposable: Disposable? = null
+    override fun onDestroy() {
+        super.onDestroy()
+        if (disposable!=null && !disposable!!.isDisposed)
+            disposable!!.dispose()
     }
 
     @Subscribe()

@@ -1,10 +1,13 @@
 package com.chen.newsplash.collectionactivity
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.annotation.Dimension
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil
@@ -12,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.SimpleTarget
@@ -40,6 +44,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.glide.transformations.BitmapTransformation
 import jp.wasabeef.glide.transformations.BlurTransformation
+import jp.wasabeef.glide.transformations.CropTransformation
 
 import kotlinx.android.synthetic.main.activity_collection.*
 
@@ -65,6 +70,7 @@ class CollectionActicity : AppCompatActivity() {
         configToolbar()
         configTopView()
         configMain()
+        binding.ivError.setOnClickListener { v-> page=0;data.state.value = LoadingState.LOADING;load()}
     }
 
     override fun onDestroy() {
@@ -92,7 +98,7 @@ class CollectionActicity : AppCompatActivity() {
         })
 
         fastAdapter.onClickListener = {v, adapter, item, position-> onPhotoClick(item,position);true}
-
+        fastAdapter.addEventHook(PhotoItem.UserClickEvent(this))
         rvMain.adapter = fastAdapter
         LogUtil.d(this.javaClass, "开始初始加载数据")
         load()
@@ -140,6 +146,7 @@ class CollectionActicity : AppCompatActivity() {
     }
 
     private fun configTopView() {
+        binding.ibUser.setOnClickListener { v->Utils.startUserActivity(this,collection.user.username,collection.user.name) }
         Glide.with(this)
             .load(collection.user.profileImage.medium)
             .placeholder(R.drawable.ic_user_default_small)
@@ -148,9 +155,14 @@ class CollectionActicity : AppCompatActivity() {
             .apply(RequestOptions.circleCropTransform())
             .into(binding.ibUser)
         binding.appBar.setBackgroundColor(Color.parseColor(collection.coverPhoto.color))
+        var multi = MultiTransformation<Bitmap>(
+            BlurTransformation(10, 3),
+            CropTransformation(Utils.dpToPx(400f),Utils.dpToPx(200f))
+        )
         Glide.with(this)
             .load(collection.coverPhoto.urls.regular)
-            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 3)))
+            .centerCrop()
+            .apply(RequestOptions.bitmapTransform(multi))
             .into(object :SimpleTarget<Drawable>(){
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     binding.appBar.background = resource
@@ -174,6 +186,7 @@ class CollectionActicity : AppCompatActivity() {
     }
 
     private fun configToolbar() {
+        window.statusBarColor = Color.parseColor("#55919191")
         setSupportActionBar(binding.toolbar)
         actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)

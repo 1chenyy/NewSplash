@@ -1,8 +1,9 @@
-package com.chen.newsplash.mainactivity.fragment
+package com.chen.newsplash.useractivity.fragments
 
 import android.content.Intent
 import android.os.Bundle
 import com.chen.newsplash.mainactivity.adapter.PhotoItem
+import com.chen.newsplash.mainactivity.fragment.BaseFragment
 import com.chen.newsplash.models.event.ModeChangeEvent
 import com.chen.newsplash.models.photos.Photo
 import com.chen.newsplash.ui.ErrorOrNoDataItem
@@ -11,88 +12,76 @@ import com.chen.newsplash.photoactivity.PhotoActivity
 import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LoadingState
 import com.chen.newsplash.utils.LogUtil
-import com.chen.newsplash.utils.Utils
 import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.GenericItem
-import com.tencent.mmkv.MMKV
-import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class PhotoFragment : BaseFragment() {
-
-    private var kv = MMKV.defaultMMKV()
-    private var type = -1
-    private var pos = -1
-    private var page = 1
+    var id: String? = ""
+    var type: Int? = 0
+    var page = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = arguments?.getInt(Const.ARG_TYPE, -1) ?: -1
-        pos = arguments?.getInt(Const.ARG_POS, -1) ?: -1
-    }
-
-    override fun upSwipeLoad() {
-        page++
-        LogUtil.d(this.javaClass, "${type}:开始上拉加载第${page}页图片数据")
-        load()
+        id = arguments?.getString(Const.ARG_USERNAME, "")
+        if (id == null)
+            activity?.onBackPressed()
+        type = arguments?.getInt(Const.ARG_TYPE, 0)
     }
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
-        if(item is PhotoItem){
-            var i = Intent(context,PhotoActivity::class.java)
-            i.putExtra(Const.ARG_PHOTO,item.getData())
+        if (item is PhotoItem) {
+            var i = Intent(context, PhotoActivity::class.java)
+            i.putExtra(Const.ARG_PHOTO, item.getData())
             context?.startActivity(i)
         }
     }
 
+    override fun firstLoad() {
+        LogUtil.d(this.javaClass, "${type}:开始初始查询${id}图片")
+        load()
+    }
+
     override fun downSwipeLoad() {
-        LogUtil.d(this.javaClass, "${type}:开始下拉加载图片")
+        LogUtil.d(this.javaClass, "${type}开始下拉加载${id}图片")
         page = 1
         load()
-
     }
 
     override fun addEventHook(adapter: GenericFastAdapter) {
-        adapter.addEventHook(PhotoItem.UserClickEvent(context!!))
+        if (type == Const.TYPE_LIKE)
+            adapter.addEventHook(PhotoItem.UserClickEvent(context!!))
     }
 
-    override fun firstLoad() {
-        LogUtil.d(this.javaClass, "${type}:开始初始查询图片")
+    override fun upSwipeLoad() {
+        page++
+        LogUtil.d(this.javaClass, "${type}开始上拉加载${id}的第${page}页图片数据")
         load()
     }
 
     override fun modeChange(event: ModeChangeEvent) {
-        if (event.pos == pos && event.type == type) {
-            LogUtil.d(this.javaClass, "${type}:开始根据事件初始查询图片")
-            swipeRefresh.isRefreshing = true
-            page = 1
-            load()
-        }
+
     }
 
     private fun load() {
-        var mode = kv.decodeInt(Utils.generateID(pos, type), 0)
-        var list: Maybe<List<Photo>>? = null
-        if (mode != Const.MODEL_RANDOM) {
-            if (type == Const.TYPE_COMMON) {
-                list = RetrofitManager.getAPI().getPhotos(page, Const.ARG_PAGE_COUNT, Utils.getModeArg(mode))
-            } else if (type == Const.TYPE_CURATED) {
-                list = RetrofitManager.getAPI().getCurated(page, Const.ARG_PAGE_COUNT, Utils.getModeArg(mode))
-            }
-        } else {
-
+        if (type == 0) {
+            disposable = RetrofitManager.getAPI().getPhotosOfUser(id!!, page, Const.ARG_PAGE_COUNT)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ l -> handleSuccess(l, page) },
+                    { t -> handleFailed(t) })
+        } else if (type == 2) {
+            disposable = RetrofitManager.getAPI().getLikePhotosOfUser(id!!, page, Const.ARG_PAGE_COUNT)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ l -> handleSuccess(l, page) },
+                    { t -> handleFailed(t) })
         }
 
-        disposable = list!!.subscribeOn(Schedulers.io()!!)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ l -> handleSuccess(l, page) },
-                { t -> handleFailed(t) })
     }
 
-
-
     private fun handleSuccess(list: List<Photo>, page: Int) {
-        LogUtil.d(this.javaClass, "${type}:获取到${list.size}条图片数据")
+        LogUtil.d(this.javaClass, "${type}获取到${id}的${list.size}条图片数据")
         if (swipeRefresh.isRefreshing)
             swipeRefresh.isRefreshing = false
         if (list.size == 0){
@@ -106,7 +95,6 @@ class PhotoFragment : BaseFragment() {
         if (data.state.value == LoadingState.LOADING) {
             data.state.value = LoadingState.LOADING_SUCCESS
         }
-        data.state.value = LoadingState.LOADING_SUCCESS
         var items = mutableListOf<PhotoItem>()
         list.forEach {
             items.add(PhotoItem().setData(it))
@@ -119,7 +107,7 @@ class PhotoFragment : BaseFragment() {
     }
 
     private fun handleFailed(t: Throwable) {
-        LogUtil.d(this.javaClass, "Throwable:${t.message}")
+        LogUtil.d(this.javaClass, "${type}Throwable:${t.message}")
         if (swipeRefresh.isRefreshing)
             swipeRefresh.isRefreshing = false
         if (page == 1) {
@@ -129,14 +117,12 @@ class PhotoFragment : BaseFragment() {
             footerAdapter.clear()
     }
 
-
     companion object {
         @JvmStatic
-        fun newInstance(type: Int, pos: Int) = PhotoFragment().apply {
-            LogUtil.d(this.javaClass,"创建PhotoFragment")
+        fun newInstance(username: String, type: Int) = PhotoFragment().apply {
             arguments = Bundle().apply {
+                putString(Const.ARG_USERNAME, username)
                 putInt(Const.ARG_TYPE, type)
-                putInt(Const.ARG_POS, pos)
             }
         }
     }
