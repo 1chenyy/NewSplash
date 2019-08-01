@@ -12,15 +12,10 @@ import com.mikepenz.fastadapter.listeners.ClickEventHook
 
 class FavoriteItem(var photo:Photo) : AbstractItem<FavoriteViewHolder>() {
     override val layoutRes = R.layout.item_favorite
-    override val type = R.id.ib_delete
+    override val type = R.id.iv
     override fun getViewHolder(v: View) = FavoriteViewHolder(v)
 
     class DeleteClickEvent():ClickEventHook<FavoriteItem>(){
-        override fun onBindMany(viewHolder: RecyclerView.ViewHolder): List<View>? {
-            if (viewHolder is FavoriteViewHolder)
-                return listOf(viewHolder.del)
-            return super.onBindMany(viewHolder)
-        }
         override fun onClick(v: View, position: Int, fastAdapter: FastAdapter<FavoriteItem>, item: FavoriteItem) {
 
         }

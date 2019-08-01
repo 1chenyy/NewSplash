@@ -117,9 +117,10 @@ class CollectionActicity : AppCompatActivity() {
 
     private fun onPhotoClick(item: GenericItem, position: Int) {
         if(item is PhotoItem){
+            item.iv.transitionName = getString(R.string.shared_photo)
             var i = Intent(this, PhotoActivity::class.java)
             i.putExtra(Const.ARG_PHOTO,item.getData())
-            startActivity(i)
+            startActivity(i,ActivityOptions.makeSceneTransitionAnimation(this,item.iv,item.iv.transitionName).toBundle())
         }
     }
 

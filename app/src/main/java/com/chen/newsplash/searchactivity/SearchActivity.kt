@@ -1,5 +1,6 @@
 package com.chen.newsplash.searchactivity
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -112,9 +113,10 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun onPhotoClick(item: IItem<out RecyclerView.ViewHolder>, position: Int) {
         if (item is PhotoItem) {
+            item.iv.transitionName = getString(R.string.shared_photo)
             var i = Intent(this, PhotoActivity::class.java)
             i.putExtra(Const.ARG_PHOTO, item.getData())
-            startActivity(i)
+            startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this,item.iv,item.iv.transitionName).toBundle())
         }
     }
 

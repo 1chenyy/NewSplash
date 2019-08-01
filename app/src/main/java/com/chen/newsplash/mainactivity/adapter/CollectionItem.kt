@@ -42,7 +42,7 @@ class CollectionItem() : AbstractItem<CollectionViewHolder>() {
 
     class UserClickEvent(var context: Activity) : ClickEventHook<CollectionItem>(){
         override fun onClick(v: View, position: Int, fastAdapter: FastAdapter<CollectionItem>, item: CollectionItem) {
-            item
+            item.ivUser.transitionName = Utils.getString(R.string.shared_user)
             Utils.startUserActivity(context,item.collection.user.username,item.collection.user.name,
                 ActivityOptions.makeSceneTransitionAnimation(context,item.ivUser,item.ivUser.transitionName))
         }

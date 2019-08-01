@@ -1,7 +1,9 @@
 package com.chen.newsplash.useractivity.fragments
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import com.chen.newsplash.R
 import com.chen.newsplash.collectionactivity.CollectionActicity
 import com.chen.newsplash.mainactivity.adapter.CollectionItem
 import com.chen.newsplash.mainactivity.fragment.BaseFragment
@@ -12,6 +14,7 @@ import com.chen.newsplash.net.RetrofitManager
 import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LoadingState
 import com.chen.newsplash.utils.LogUtil
+import com.chen.newsplash.utils.Utils
 import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,9 +33,10 @@ class CollectionFragment : BaseFragment() {
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
         if (item is CollectionItem) {
+            item.ivUser.transitionName = Utils.getString(R.string.shared_user)
             var i = Intent(context, CollectionActicity::class.java)
             i.putExtra(Const.ARG_PHOTO, item.getData())
-            context?.startActivity(i)
+            context?.startActivity(i,ActivityOptions.makeSceneTransitionAnimation(activity,item.ivUser,item.ivUser.transitionName).toBundle())
         }
     }
 
@@ -90,7 +94,8 @@ class CollectionFragment : BaseFragment() {
                 footerAdapter.clear()
             return
         }
-        data.state.value = LoadingState.LOADING_SUCCESS
+        if (page == 1)
+            data.state.value = LoadingState.LOADING_SUCCESS
         var items = mutableListOf<CollectionItem>()
         list.forEach {
             items.add(CollectionItem().setData(it))

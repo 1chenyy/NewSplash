@@ -68,4 +68,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_favorite">FavoriteActivity</string>
     <string name="title_favorite">Favorite</string>
+    <string name="delete_all">Delete All</string>
+    <string name="delete_all_msg">Whether or not to clear all the collection records</string>
+    <string name="bt_ok">Ok</string>
 </resources>

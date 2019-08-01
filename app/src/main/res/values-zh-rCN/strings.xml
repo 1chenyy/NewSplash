@@ -48,4 +48,7 @@
     <string name="bt_cancel">取消</string>
     <string name="downloading_title">正在下载</string>
     <string name="title_favorite">收藏</string>
+    <string name="delete_all">清空</string>
+    <string name="delete_all_msg">是否要清空所有收藏记录</string>
+    <string name="bt_ok">确定</string>
 </resources>

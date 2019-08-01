@@ -1,14 +1,21 @@
 package com.chen.newsplash.favoriteactivity
 
+import android.animation.Animator
+import android.app.ActivityOptions
+import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.Animation
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +24,10 @@ import com.chen.newsplash.R
 import com.chen.newsplash.databinding.ActivityFavoriteBinding
 import com.chen.newsplash.favoriteactivity.adapter.FavoriteItem
 import com.chen.newsplash.favoriteactivity.databinding.FavoriteActivityViewModel
+import com.chen.newsplash.mainactivity.adapter.PhotoItem
 import com.chen.newsplash.models.photos.Photo
+import com.chen.newsplash.photoactivity.PhotoActivity
+import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LoadingState
 import com.chen.newsplash.utils.LogUtil
 import com.chen.newsplash.utils.Utils
@@ -54,6 +64,12 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
         configMain()
     }
 
+    override fun onResume() {
+        super.onResume()
+        offset = 0
+        load()
+    }
+
     private fun configMain() {
         rvMain = binding.main
         rvMain.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
@@ -69,8 +85,8 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
                 }
             }
         })
+        rvMain.itemAnimator = DefaultItemAnimator()
         fastAdapter.onClickListener = {v, adapter, item, position-> onPhotoClick(item,position);true}
-        fastAdapter.addEventHook(FavoriteItem.DeleteClickEvent())
         rvMain.adapter = fastAdapter
 
         var touchCallback = SimpleSwipeCallback(this,
@@ -78,11 +94,16 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
 
         var touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rvMain)
-        load()
+
     }
 
     override fun itemSwiped(position: Int, direction: Int) {
         println("删除${position}")
+        NewSplash.dbPhoto!!.getFavorite()
+            .deletePhotoByID((itemAdapter.getAdapterItem(position) as FavoriteItem).photo.id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
         itemAdapter.remove(position)
         fastAdapter.notifyAdapterItemRemoved(position)
     }
@@ -90,7 +111,11 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
 
 
     private fun onPhotoClick(item: IItem<out RecyclerView.ViewHolder>, position: Int) {
-
+        if(item is FavoriteItem){
+            var i = Intent(this, PhotoActivity::class.java)
+            i.putExtra(Const.ARG_PHOTO,item.photo)
+            startActivity(i)
+        }
     }
 
     private fun upSwipeLoad() {
@@ -147,9 +172,35 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.getItemId() == android.R.id.home) {
-            finish()
+
+        when(item?.getItemId()){
+            android.R.id.home->finish()
+            R.id.action_delete_all->deleteAll();
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun deleteAll() {
+        var build = AlertDialog.Builder(this)
+        build.setTitle(R.string.delete_all)
+        build.setMessage(R.string.delete_all_msg)
+        build.setCancelable(false)
+        build.setPositiveButton(R.string.bt_ok,{d,w->
+            NewSplash.dbPhoto!!.getFavorite().deleteAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    itemAdapter.clear()
+                    fastAdapter.notifyAdapterDataSetChanged()
+                })
+        })
+        build.setNegativeButton(R.string.bt_cancel,null)
+        build.create().show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.favorite,menu)
+        return true
+    }
+
 }

@@ -37,8 +37,8 @@ class CollectionFragment : BaseFragment() {
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
         if (item is CollectionItem) {
-            var opts = ActivityOptions.makeSceneTransitionAnimation(activity,
-                Pair.create<View,String>(item.ivUser,Utils.getString(R.string.shared_user)))
+            item.ivUser.transitionName = Utils.getString(R.string.shared_user)
+            var opts = ActivityOptions.makeSceneTransitionAnimation(activity,item.ivUser,item.ivUser.transitionName)
             var i = Intent(context, CollectionActicity::class.java)
             i.putExtra(Const.ARG_PHOTO, item.getData())
             context?.startActivity(i,opts.toBundle())
@@ -106,7 +106,7 @@ class CollectionFragment : BaseFragment() {
                 footerAdapter.clear()
             return
         }
-        if (data.state.value == LoadingState.LOADING) {
+        if (page == 1) {
             data.state.value = LoadingState.LOADING_SUCCESS
         }
         data.state.value = LoadingState.LOADING_SUCCESS

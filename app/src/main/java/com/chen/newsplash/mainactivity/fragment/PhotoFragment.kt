@@ -43,7 +43,8 @@ class PhotoFragment : BaseFragment() {
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
         if(item is PhotoItem){
-            var opt = ActivityOptions.makeSceneTransitionAnimation(activity,item.iv,Utils.getString(R.string.shared_photo))
+            item.iv.transitionName = Utils.getString(R.string.shared_photo)
+            var opt = ActivityOptions.makeSceneTransitionAnimation(activity,item.iv,item.iv.transitionName)
             var i = Intent(context,PhotoActivity::class.java)
             i.putExtra(Const.ARG_PHOTO,item.getData())
             context?.startActivity(i,opt.toBundle())
@@ -107,7 +108,7 @@ class PhotoFragment : BaseFragment() {
                 footerAdapter.clear()
             return
         }
-        if (data.state.value == LoadingState.LOADING) {
+        if (page == 1) {
             data.state.value = LoadingState.LOADING_SUCCESS
         }
         data.state.value = LoadingState.LOADING_SUCCESS

@@ -1,8 +1,10 @@
 package com.chen.newsplash.useractivity.fragments
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import com.chen.newsplash.R
 import com.chen.newsplash.mainactivity.adapter.PhotoItem
 import com.chen.newsplash.mainactivity.fragment.BaseFragment
 import com.chen.newsplash.models.event.ModeChangeEvent
@@ -13,6 +15,7 @@ import com.chen.newsplash.photoactivity.PhotoActivity
 import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LoadingState
 import com.chen.newsplash.utils.LogUtil
+import com.chen.newsplash.utils.Utils
 import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,9 +35,11 @@ class PhotoFragment : BaseFragment() {
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
         if (item is PhotoItem) {
+            item.iv.transitionName = Utils.getString(R.string.shared_photo)
+            var opt = ActivityOptions.makeSceneTransitionAnimation(activity,item.iv,item.iv.transitionName)
             var i = Intent(context, PhotoActivity::class.java)
             i.putExtra(Const.ARG_PHOTO, item.getData())
-            context?.startActivity(i)
+            context?.startActivity(i,opt.toBundle())
         }
     }
 
@@ -93,7 +98,7 @@ class PhotoFragment : BaseFragment() {
                 footerAdapter.clear()
             return
         }
-        if (data.state.value == LoadingState.LOADING) {
+        if (page == 1) {
             data.state.value = LoadingState.LOADING_SUCCESS
         }
         var items = mutableListOf<PhotoItem>()

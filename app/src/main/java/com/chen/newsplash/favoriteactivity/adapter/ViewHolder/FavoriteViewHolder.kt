@@ -59,10 +59,8 @@ class FavoriteViewHolder(var itemview: View) : FastAdapter.ViewHolder<FavoriteIt
     }
 
     var iv: ImageView
-    var del: ImageButton
 
     init {
         iv = itemview.findViewById(R.id.iv)
-        del = itemview.findViewById(R.id.ib_delete)
     }
 }

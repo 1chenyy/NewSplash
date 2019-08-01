@@ -199,25 +199,26 @@ class PhotoActivity : AppCompatActivity() {
     }
 
     private fun checkNet() {
-        if (kv.decodeBool(Const.DOWNLOAD_NET_TYPE,false) &&
-            !Utils.CONNECTIVITY_MANAGER.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected){
-            var build = androidx.appcompat.app.AlertDialog.Builder(this)
-            build.setCancelable(false)
-            build.setTitle(R.string.download_alert_title)
-            build.setTitle(R.string.download_alert_content)
-            build.setPositiveButton(R.string.bt_only,{b,w->downloadPhoto()})
-            build.setNeutralButton(R.string.bt_cancel,null)
-            build.setNegativeButton(R.string.bt_no_ask,{b,w->kv.encode(Const.DOWNLOAD_NET_TYPE,true);downloadPhoto()})
-            build.create().show()
-        }else{
-            downloadPhoto()
-        }
+        downloadPhoto()
+//        if (kv.decodeBool(Const.DOWNLOAD_NET_TYPE,false) &&
+//            !Utils.CONNECTIVITY_MANAGER.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected){
+//            var build = androidx.appcompat.app.AlertDialog.Builder(this)
+//            build.setCancelable(false)
+//            build.setTitle(R.string.download_alert_title)
+//            build.setTitle(R.string.download_alert_content)
+//            build.setPositiveButton(R.string.bt_only,{b,w->downloadPhoto()})
+//            build.setNeutralButton(R.string.bt_cancel,null)
+//            build.setNegativeButton(R.string.bt_no_ask,{b,w->kv.encode(Const.DOWNLOAD_NET_TYPE,true);downloadPhoto()})
+//            build.create().show()
+//        }else{
+//            downloadPhoto()
+//        }
     }
 
     private fun downloadPhoto() {
         if (kv.decodeInt(Const.DOWNLOAD_QUALITY,-1) == -1){
             var build = androidx.appcompat.app.AlertDialog.Builder(this)
-            build.setCancelable(false)
+            build.setCancelable(true)
             build.setTitle(R.string.quality_title)
             var checkedItem = 2;
             var qualities = arrayOf(getString(R.string.qulaity_raw),getString(R.string.quality_full),getString(R.string.quality_reqular),getString(R.string.quality_small))

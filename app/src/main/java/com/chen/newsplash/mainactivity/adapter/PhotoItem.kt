@@ -58,6 +58,7 @@ class PhotoItem() : AbstractItem<PhotoViewHolder>() {
             return super.onBindMany(viewHolder)
         }
         override fun onClick(v: View, position: Int, fastAdapter: FastAdapter<PhotoItem>, item: PhotoItem) {
+            item.user.transitionName = Utils.getString(R.string.shared_user)
             var opts = ActivityOptions.makeSceneTransitionAnimation(context,item.user,item.user.transitionName)
             Utils.startUserActivity(context,item.photo.user.username,item.photo.user.name,opts)
         }
