@@ -47,4 +47,25 @@
     <string name="search_portait">Portait</string>
     <string name="search_landscape">Landscape</string>
     <string name="search_square">Square</string>
+    <string name="permission_error">Lack of critical permissions</string>
+    <string name="quality_title">Image quality</string>
+    <string name="qulaity_raw">Raw</string>
+    <string name="quality_full">Full</string>
+    <string name="quality_reqular">Regular</string>
+    <string name="quality_small">Small</string>
+    <string name="bt_only">Only this</string>
+    <string name="bt_no_ask">No longer ask</string>
+    <string name="download_alert_title">Alert</string>
+    <string name="download_alert_content">If you are in a non-wifi environment, there may be a charge for downloading images</string>
+    <string name="bt_cancel">Cancel</string>
+    <string name="downloading_title">Downloading</string>
+    <string name="shared_photo" translatable="false">photo</string>
+    <string name="shared_user" translatable="false">user</string>
+    <string name="shared_name" translatable="false">name</string>
+
+    <string name="title_activity_full_photo">FullPhotoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_favorite">FavoriteActivity</string>
+    <string name="title_favorite">Favorite</string>
 </resources>

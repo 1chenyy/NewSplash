@@ -1,6 +1,7 @@
 package com.chen.newsplash.models.photos
 
 
+import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -11,6 +12,7 @@ data class Urls(
     var raw: String,
     @SerializedName("regular")
     var regular: String,
+    @ColumnInfo(name = "urlsmall")
     @SerializedName("small")
     var small: String,
     @SerializedName("thumb")

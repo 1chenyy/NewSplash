@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
+                    android:transitionName="@string/shared_user"
                     android:id="@+id/ib_user"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -48,6 +49,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:transitionName="@string/shared_name"
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

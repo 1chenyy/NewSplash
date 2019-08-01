@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.ViewPropertyTransition
 import com.chen.newsplash.NewSplash
@@ -27,6 +28,7 @@ class PhotoViewHolder(itemView: View): FastAdapter.ViewHolder<PhotoItem>(itemVie
 
         Glide.with(this.itemView.context)
             .load(item.photo.user.profileImage.medium)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .placeholder(R.drawable.ic_user_default_small)
             .error(R.drawable.ic_user_default_small)
             .fallback(R.drawable.ic_user_default_small)
@@ -38,6 +40,7 @@ class PhotoViewHolder(itemView: View): FastAdapter.ViewHolder<PhotoItem>(itemVie
         ivPreview.setBackgroundColor(Color.parseColor(item.photo.color))
         Glide.with(this.itemView.context)
             .load(item.photo.urls.regular)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .transition(GenericTransitionOptions.with(
                 ViewPropertyTransition.Animator {
                 var fade =ObjectAnimator.ofFloat(it,"alpha",0f,1f)

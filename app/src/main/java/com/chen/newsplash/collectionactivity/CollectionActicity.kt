@@ -1,5 +1,6 @@
 package com.chen.newsplash.collectionactivity
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.SimpleTarget
@@ -146,9 +148,13 @@ class CollectionActicity : AppCompatActivity() {
     }
 
     private fun configTopView() {
-        binding.ibUser.setOnClickListener { v->Utils.startUserActivity(this,collection.user.username,collection.user.name) }
+        binding.ibUser.setOnClickListener {
+                v->Utils.startUserActivity(this,collection.user.username,collection.user.name
+            , ActivityOptions.makeSceneTransitionAnimation(this,binding.ibUser,binding.ibUser.transitionName))
+        }
         Glide.with(this)
             .load(collection.user.profileImage.medium)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .placeholder(R.drawable.ic_user_default_small)
             .error(R.drawable.ic_user_default_small)
             .fallback(R.drawable.ic_user_default_small)
@@ -161,6 +167,7 @@ class CollectionActicity : AppCompatActivity() {
         )
         Glide.with(this)
             .load(collection.coverPhoto.urls.regular)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .centerCrop()
             .apply(RequestOptions.bitmapTransform(multi))
             .into(object :SimpleTarget<Drawable>(){

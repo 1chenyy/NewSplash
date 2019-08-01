@@ -12,6 +12,7 @@ class PhotoActivityViewModel : ViewModel(){
     var download = MutableLiveData<String>()
     var favorite = MutableLiveData<String>()
     var downloadState = MutableLiveData<DownloadState>()
+    var favorited = MutableLiveData<Boolean>()
 
     init {
         state.value = LoadingState.LOADING

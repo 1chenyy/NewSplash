@@ -1,7 +1,11 @@
 package com.chen.newsplash.mainactivity.fragment
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
+import com.chen.newsplash.R
 import com.chen.newsplash.mainactivity.adapter.PhotoItem
 import com.chen.newsplash.models.event.ModeChangeEvent
 import com.chen.newsplash.models.photos.Photo
@@ -39,9 +43,10 @@ class PhotoFragment : BaseFragment() {
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
         if(item is PhotoItem){
+            var opt = ActivityOptions.makeSceneTransitionAnimation(activity,item.iv,Utils.getString(R.string.shared_photo))
             var i = Intent(context,PhotoActivity::class.java)
             i.putExtra(Const.ARG_PHOTO,item.getData())
-            context?.startActivity(i)
+            context?.startActivity(i,opt.toBundle())
         }
     }
 
@@ -49,11 +54,10 @@ class PhotoFragment : BaseFragment() {
         LogUtil.d(this.javaClass, "${type}:开始下拉加载图片")
         page = 1
         load()
-
     }
 
     override fun addEventHook(adapter: GenericFastAdapter) {
-        adapter.addEventHook(PhotoItem.UserClickEvent(context!!))
+        adapter.addEventHook(PhotoItem.UserClickEvent(activity as Activity))
     }
 
     override fun firstLoad() {

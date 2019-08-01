@@ -49,5 +49,12 @@ object Const {
     val ARG_NAME = "name"
     val ARG_USERNAME = "username"
     val LIST_ORIENTATION = mutableListOf("","portrait","landscape","squarish")
-    val DIR_DOWNLAOD = File(Environment.getExternalStorageDirectory(),"NewSplash")
+    val DIR_DOWNLAOD = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"NewSplash")
+    val DIR_DOWNLAOD_NAME = "NewSplash"
+    val DOWNLOAD_RAW = "0"
+    val DOWNLOAD_FULL = "1"
+    val DOWNLOAD_REGULAR = "2"
+    val DOWNLOAD_SMALL = "3"
+    val DOWNLOAD_QUALITY = "quality"
+    val DOWNLOAD_NET_TYPE = "net_type"
 }

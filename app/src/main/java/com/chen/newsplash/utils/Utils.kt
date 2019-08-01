@@ -1,6 +1,7 @@
 package com.chen.newsplash.utils
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -36,7 +37,7 @@ object Utils {
 
     fun getDrawable(res: Int) = NewSplash.context!!.getDrawable(res)
 
-    fun dpToPx(value: Float) = (value / SCREEN_DENSITY + 0.5f).toInt()
+    fun dpToPx(value: Float) = (value * SCREEN_DENSITY + 0.5f).toInt()
 
     fun pxToDp(value: Float) = (value / SCREEN_DENSITY + 0.5f).toInt()
 
@@ -98,11 +99,11 @@ object Utils {
         else->Const.MODEL_LATEST_ARG
     }
 
-    fun startUserActivity(context:Context,username:String,name:String){
+    fun startUserActivity(context:Context,username:String,name:String,opts:ActivityOptions){
         var intent = Intent(context, UserActivity::class.java)
         intent.putExtra(Const.ARG_NAME,name)
         intent.putExtra(Const.ARG_USERNAME,username)
-        context.startActivity(intent)
+        context.startActivity(intent,opts.toBundle())
     }
 
     fun closeInput(v:View){

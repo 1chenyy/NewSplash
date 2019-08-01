@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.ViewPropertyTransition
 import com.chen.newsplash.R
@@ -23,6 +24,7 @@ class CollectionViewHolder(itemView: View): FastAdapter.ViewHolder<CollectionIte
 
         Glide.with(this.itemView.context)
             .load(item.collection.user.profileImage.medium)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .placeholder(R.drawable.ic_user_default_small)
             .error(R.drawable.ic_user_default_small)
             .fallback(R.drawable.ic_user_default_small)
@@ -34,6 +36,7 @@ class CollectionViewHolder(itemView: View): FastAdapter.ViewHolder<CollectionIte
         ivPreview.setBackgroundColor(Color.parseColor(item.collection.coverPhoto.color))
         Glide.with(this.itemView.context)
             .load(item.collection.coverPhoto.urls.regular)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .transition(
                 GenericTransitionOptions.with(
                     ViewPropertyTransition.Animator {

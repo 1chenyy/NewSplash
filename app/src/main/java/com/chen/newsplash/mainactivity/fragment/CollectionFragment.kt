@@ -1,7 +1,12 @@
 package com.chen.newsplash.mainactivity.fragment
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.util.Pair
+import android.view.View
+import com.chen.newsplash.R
 import com.chen.newsplash.collectionactivity.CollectionActicity
 import com.chen.newsplash.mainactivity.adapter.CollectionItem
 import com.chen.newsplash.models.collections.Collection
@@ -11,6 +16,7 @@ import com.chen.newsplash.net.RetrofitManager
 import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LoadingState
 import com.chen.newsplash.utils.LogUtil
+import com.chen.newsplash.utils.Utils
 import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.tencent.mmkv.MMKV
@@ -31,9 +37,11 @@ class CollectionFragment : BaseFragment() {
 
     override fun onPhotoClick(item: GenericItem, pos: Int) {
         if (item is CollectionItem) {
+            var opts = ActivityOptions.makeSceneTransitionAnimation(activity,
+                Pair.create<View,String>(item.ivUser,Utils.getString(R.string.shared_user)))
             var i = Intent(context, CollectionActicity::class.java)
             i.putExtra(Const.ARG_PHOTO, item.getData())
-            context?.startActivity(i)
+            context?.startActivity(i,opts.toBundle())
         }
     }
 
@@ -49,7 +57,7 @@ class CollectionFragment : BaseFragment() {
     }
 
     override fun addEventHook(adapter: GenericFastAdapter) {
-        adapter.addEventHook(CollectionItem.UserClickEvent(context!!))
+        adapter.addEventHook(CollectionItem.UserClickEvent(activity as Activity))
     }
 
     override fun upSwipeLoad() {

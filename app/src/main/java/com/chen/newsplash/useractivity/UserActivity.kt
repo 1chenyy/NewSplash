@@ -28,6 +28,7 @@ import android.text.style.URLSpan
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chen.newsplash.useractivity.fragments.CollectionFragment
 import com.chen.newsplash.useractivity.fragments.PhotoFragment
 import com.chen.newsplash.mainactivity.adapter.PagerAdapter
@@ -86,6 +87,7 @@ class UserActivity : AppCompatActivity() {
         LogUtil.d(this.javaClass, "获取成功")
         Glide.with(this)
             .load(user.profileImage.medium)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .placeholder(R.drawable.ic_user_default_small_grey)
             .error(R.drawable.ic_user_default_small_grey)
             .fallback(R.drawable.ic_user_default_small_grey)

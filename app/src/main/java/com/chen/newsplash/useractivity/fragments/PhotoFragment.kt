@@ -1,5 +1,6 @@
 package com.chen.newsplash.useractivity.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.chen.newsplash.mainactivity.adapter.PhotoItem
@@ -50,7 +51,7 @@ class PhotoFragment : BaseFragment() {
 
     override fun addEventHook(adapter: GenericFastAdapter) {
         if (type == Const.TYPE_LIKE)
-            adapter.addEventHook(PhotoItem.UserClickEvent(context!!))
+            adapter.addEventHook(PhotoItem.UserClickEvent(activity as Activity))
     }
 
     override fun upSwipeLoad() {

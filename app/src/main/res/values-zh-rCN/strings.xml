@@ -35,4 +35,17 @@
     <string name="search_portait">纵向</string>
     <string name="search_landscape">横向</string>
     <string name="search_square">正方形</string>
+    <string name="permission_error">缺少关键权限</string>
+    <string name="quality_title">图片质量</string>
+    <string name="qulaity_raw">原图（无压缩）</string>
+    <string name="quality_full">原图（有压缩）</string>
+    <string name="quality_reqular">常规</string>
+    <string name="quality_small">小图</string>
+    <string name="bt_only">仅本次选择</string>
+    <string name="bt_no_ask">不再询问</string>
+    <string name="download_alert_title">提醒</string>
+    <string name="download_alert_content">您正在非WiFi环境下，是否允许下载，这可能会产生费用</string>
+    <string name="bt_cancel">取消</string>
+    <string name="downloading_title">正在下载</string>
+    <string name="title_favorite">收藏</string>
 </resources>

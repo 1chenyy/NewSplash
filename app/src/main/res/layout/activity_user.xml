@@ -40,6 +40,7 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
                 <ImageView
+                    android:transitionName="@string/shared_user"
                     android:id="@+id/iv_user"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
