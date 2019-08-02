@@ -33,7 +33,7 @@ class FavoriteViewHolder(var itemview: View) : FastAdapter.ViewHolder<FavoriteIt
 
         )
         Glide.with(itemview.context)
-            .load(item.photo.urls.regular)
+            .load(Utils.exceptURL(item.photo.urls.regular,item.photo.width,item.photo.height))
             .diskCacheStrategy(DiskCacheStrategy.DATA)
             .centerCrop()
             .apply(RequestOptions.bitmapTransform(multi))

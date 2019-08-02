@@ -60,6 +60,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     var query = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         binding.lifecycleOwner = this
         data = ViewModelProviders.of(this).get(SearchActivityViewModel::class.java)
@@ -69,6 +70,12 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         configSpinner()
         configRecyclerView()
         configClick()
+        var arg = intent.getStringExtra(Const.ARG_ARG)
+        if (!TextUtils.isEmpty(arg)) {
+            query = arg
+            page = 1
+            search()
+        }
     }
 
     private fun configClick() {
@@ -136,6 +143,9 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (TextUtils.isEmpty(query)) {
             return
         }
+        if (dispoable != null && !(dispoable?.isDisposed ?: true)){
+            dispoable?.dispose()
+        }
         LogUtil.d(this.javaClass, "开始搜索${data.query.value}")
         if (page == 1)
             data.state.value = LoadingState.LOADING
@@ -150,7 +160,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 Const.LIST_ORIENTATION[currentFilter]
             )
         }
-        result.subscribeOn(Schedulers.io())
+        dispoable = result.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ l -> handleSuccess(l) }, { t -> handleFailed(t) })
     }

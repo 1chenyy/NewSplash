@@ -51,4 +51,9 @@
     <string name="delete_all">清空</string>
     <string name="delete_all_msg">是否要清空所有收藏记录</string>
     <string name="bt_ok">确定</string>
+    <string name="setting_clear">清除缓存</string>
+    <string name="setting_download">下载目录</string>
+    <string name="setting_clearing">正在清除</string>
+    <string name="setting_download_quality">下载图片质量</string>
+    <string name="setting_cache_msg">是否要清空缓存（使用缓存可以提高加载速度）</string>
 </resources>

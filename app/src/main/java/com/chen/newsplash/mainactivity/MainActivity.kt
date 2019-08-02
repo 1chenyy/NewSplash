@@ -25,6 +25,7 @@ import com.chen.newsplash.mainactivity.fragment.FragmentFactory
 import com.chen.newsplash.mainactivity.fragment.PhotoFragment
 import com.chen.newsplash.models.event.ModeChangeEvent
 import com.chen.newsplash.searchactivity.SearchActivity
+import com.chen.newsplash.settingsactivity.SettingsActivity
 import com.chen.newsplash.utils.Const
 import com.chen.newsplash.utils.LogUtil
 import com.chen.newsplash.utils.Utils
@@ -156,7 +157,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_settings -> {
-
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
             R.id.nav_favorite -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))

@@ -85,10 +85,9 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
                 }
             }
         })
-        rvMain.itemAnimator = DefaultItemAnimator()
         fastAdapter.onClickListener = {v, adapter, item, position-> onPhotoClick(item,position);true}
         rvMain.adapter = fastAdapter
-
+        rvMain.itemAnimator?.changeDuration = 0
         var touchCallback = SimpleSwipeCallback(this,
             getDrawable(R.drawable.ic_delete_forever_black_24dp),ItemTouchHelper.LEFT,Color.RED)
 
@@ -112,6 +111,7 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
 
     private fun onPhotoClick(item: IItem<out RecyclerView.ViewHolder>, position: Int) {
         if(item is FavoriteItem){
+            item.iv.transitionName = getString(R.string.shared_photo)
             var i = Intent(this, PhotoActivity::class.java)
             i.putExtra(Const.ARG_PHOTO,item.photo)
             startActivity(i)
@@ -146,9 +146,10 @@ class FavoriteActivity : AppCompatActivity(), SimpleSwipeCallback.ItemSwipeCallb
         list.forEach {
             items.add(FavoriteItem(it))
         }
-        itemAdapter.add(items)
         if (offset == 0)
-            rvMain.scrollToPosition(0)
+            itemAdapter.clear()
+        itemAdapter.add(items)
+
     }
 
     private fun handleFailed(t:Throwable){

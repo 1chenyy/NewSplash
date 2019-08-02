@@ -1,5 +1,6 @@
 package com.chen.newsplash.useractivity
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
@@ -33,6 +34,7 @@ import com.chen.newsplash.useractivity.fragments.CollectionFragment
 import com.chen.newsplash.useractivity.fragments.PhotoFragment
 import com.chen.newsplash.mainactivity.adapter.PagerAdapter
 import com.chen.newsplash.photoactivity.adapter.TagItem
+import com.chen.newsplash.searchactivity.SearchActivity
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
@@ -115,6 +117,15 @@ class UserActivity : AppCompatActivity() {
         val itemAdapter = GenericItemAdapter()
         var adapter: GenericFastAdapter = FastAdapter.with(itemAdapter)
         rvTag.adapter = adapter
+        adapter.onClickListener = {v, adapter, item, position->
+            if (item is TagItem){
+                var i = Intent(this, SearchActivity::class.java)
+                i.putExtra(Const.ARG_ARG,item.content)
+                startActivity(i)
+            }
+
+            true
+        }
         itemAdapter.add(tags)
     }
 

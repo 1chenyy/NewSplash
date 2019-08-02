@@ -116,4 +116,15 @@ object Utils {
             Const.DIR_DOWNLAOD.mkdirs()
         return Const.DIR_DOWNLAOD.list().contains(name)
     }
+
+    fun exceptURL(url:String,w:Int,h:Int):String{
+        if (w>=h){
+            var r = h.toDouble() / SCREEN_HEIGHT.toDouble()
+            var expectW = (w.toDouble()/r).toInt()
+            return url.replace("w=1080","w=${expectW}")
+        }else{
+            return url
+        }
+
+    }
 }

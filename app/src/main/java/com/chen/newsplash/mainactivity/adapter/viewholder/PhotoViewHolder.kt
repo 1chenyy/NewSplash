@@ -39,7 +39,7 @@ class PhotoViewHolder(itemView: View): FastAdapter.ViewHolder<PhotoItem>(itemVie
         ivPreview.minimumHeight = hight.toInt()
         ivPreview.setBackgroundColor(Color.parseColor(item.photo.color))
         Glide.with(this.itemView.context)
-            .load(item.photo.urls.regular)
+            .load(Utils.exceptURL(item.photo.urls.regular,item.photo.width,item.photo.height))
             .diskCacheStrategy(DiskCacheStrategy.DATA)
             .transition(GenericTransitionOptions.with(
                 ViewPropertyTransition.Animator {

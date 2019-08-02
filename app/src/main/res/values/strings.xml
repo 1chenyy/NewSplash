@@ -71,4 +71,24 @@
     <string name="delete_all">Delete All</string>
     <string name="delete_all_msg">Whether or not to clear all the collection records</string>
     <string name="bt_ok">Ok</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="setting_clear">Clear cache</string>
+    <string name="setting_download">Download Folder</string>
+    <string name="setting_clearing">Clearing</string>
+    <string name="setting_download_quality">Download Quality</string>
+    <string name="setting_cache_msg">Whether to empty the cache (using the cache can improve loading speed)</string>
 </resources>

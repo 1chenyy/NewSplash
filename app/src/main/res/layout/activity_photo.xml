@@ -121,7 +121,7 @@
                         android:id="@+id/ib_user"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_margin="8dp"
+                        android:layout_margin="15dp"
                         android:background="?android:attr/selectableItemBackground"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -144,6 +144,7 @@
                         android:id="@+id/iv_eye"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginTop="8dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:src="@drawable/ic_remove_red_eye_black_24dp"
                         app:layout_constraintHorizontal_chainStyle="spread"
@@ -164,6 +165,7 @@
                         app:layout_constraintTop_toBottomOf="@id/iv_eye" />
 
                     <ImageButton
+                        android:layout_marginTop="8dp"
                         android:visibility="@{data.downloadState != DownloadState.DOWNLOADING?View.VISIBLE:View.INVISIBLE}"
                         android:id="@+id/iv_download"
                         android:layout_width="24dp"
@@ -197,6 +199,7 @@
                         app:layout_constraintTop_toBottomOf="@id/iv_download" />
 
                     <ImageButton
+                        android:layout_marginTop="8dp"
                         android:id="@+id/iv_favorite"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -223,7 +226,10 @@
                         android:id="@+id/rv_exif"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="12dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_eye" />
@@ -233,7 +239,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginRight="8dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -242,8 +248,8 @@
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/vp_collection"
                         android:layout_width="match_parent"
-                        android:layout_height="230dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="325dp"
+                        android:layout_marginTop="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

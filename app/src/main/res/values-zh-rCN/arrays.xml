@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="qulaity_entries">
+        <item>原图（无压缩）</item>
+        <item>原图（有压缩）</item>
+        <item>常规</item>
+        <item>小图</item>
+        <item>每次询问</item>
+    </string-array>
+</resources>
