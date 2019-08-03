@@ -1,7 +1,6 @@
 package com.chen.newsplash.photoactivity
 
-import android.app.ActivityOptions
-import android.app.DownloadManager
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,8 +11,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -60,6 +61,7 @@ class PhotoActivity : AppCompatActivity() {
     val kv = MMKV.defaultMMKV()
     var hasPermissions: Boolean = false
     var quality = -1;
+    lateinit var downloadingProgress:ProgressDialog
     private val disposables = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,24 +83,26 @@ class PhotoActivity : AppCompatActivity() {
 
         disposables.add(
             Maybe.just("${photo.id}.jpg")
-                .map { checkCursor(kv.decodeLong(it, -1)) }
-                .map {
-                    if (it == DownloadState.DOWNLOADED) {
-                        LogUtil.d(this.javaClass, "cursor检查结果为完成，现在检查目录")
-                        if (hasPermissions) {
-                            if (!Utils.checkFile("${photo.id}.jpg")) {
-                                LogUtil.d(this.javaClass, "cursor检查结果为完成，但未找到该文件")
-                                DownloadState.NO_DOWNLOAD
-                            } else {
-                                it
-                            }
-                        } else {
-                            it
-                        }
-                    } else {
-                        it
-                    }
-                }
+//                .map { checkCursor(kv.decodeLong(it, -1)) }
+//                .map {
+//                    if (it == DownloadState.DOWNLOADED) {
+//                        LogUtil.d(this.javaClass, "cursor检查结果为完成，现在检查目录")
+//                        if (hasPermissions) {
+//                            if (!Utils.checkFile("${photo.id}.jpg")) {
+//                                LogUtil.d(this.javaClass, "cursor检查结果为完成，但未找到该文件")
+//                                DownloadState.NO_DOWNLOAD
+//                            } else {
+//                                it
+//                            }
+//                        } else {
+//                            it
+//                        }
+//                    } else {
+//                        it
+//                    }
+//                }
+                .map { checkDir(it) }
+                .map { checkDownloadManager(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ data.downloadState.value = it }, { data.downloadState.value = DownloadState.NO_DOWNLOAD })
@@ -110,6 +114,24 @@ class PhotoActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ data.favorited.value = it?.size != 0 ?: false }, { data.favorited.value = false })
         )
+    }
+
+    private fun checkDownloadManager(it: DownloadState):DownloadState {
+
+        if (it == DownloadState.DOWNLOADED){
+            LogUtil.d(this.javaClass, "在目录中找到该文件，在DownloadManager中确认信息")
+            var result = checkCursor(kv.decodeLong("${photo.id}.jpg", -1))
+            if (result == DownloadState.DOWNLOADING) {
+                LogUtil.d(this.javaClass, "在DownloadManager中查到正在下载")
+                return DownloadState.DOWNLOADING
+            }else {
+                if (result == DownloadState.DOWNLOADED)
+                    kv.removeValueForKey("${photo.id}.jpg")
+                return DownloadState.DOWNLOADED
+            }
+        }else{
+            return it;
+        }
     }
 
     private fun checkCursor(id: Long): DownloadState {
@@ -143,6 +165,14 @@ class PhotoActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkDir(name:String):DownloadState{
+        LogUtil.d(this.javaClass, "在下载目录中查找下载信息")
+        var f = File(Const.DIR_DOWNLAOD,name)
+        if (f.exists())
+            return DownloadState.DOWNLOADED
+        return DownloadState.NO_DOWNLOAD
+    }
+
     override fun onStart() {
         super.onStart()
         var filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
@@ -153,13 +183,18 @@ class PhotoActivity : AppCompatActivity() {
                 if (id != -1L && id == kv.decodeLong("${photo.id}.jpg", -1)) {
                     data.downloadState.value = checkCursor(id)
                 }
+                if (id != -1L && id  ==kv.decodeLong("wallpaper_${photo.id}.jpg", -1)){
+                    downloadingProgress.dismiss()
+                    var f = File(Const.DIR_WALLPAPER,"${photo.id}.jpg")
+                    setWallpaperFromFile(f)
+                }
             }
         }
         registerReceiver(completeReceiver, filter)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         unregisterReceiver(completeReceiver)
     }
 
@@ -180,6 +215,26 @@ class PhotoActivity : AppCompatActivity() {
         }
         binding.ivDownload.setOnClickListener { onDownloadClick() }
         binding.ivFavorite.setOnClickListener { onFavoriteClick() }
+        binding.wallpaper.setOnClickListener { onWallPaperClick() }
+    }
+
+    private fun onWallPaperClick() {
+        if (!Const.DIR_WALLPAPER.exists())
+            Const.DIR_WALLPAPER.mkdirs()
+        var f = File(Const.DIR_WALLPAPER,"${photo.id}.jpg")
+        if (f.exists()){
+            setWallpaperFromFile(f)
+        }else{
+            downloadPhoto(Const.WALLPAPER_QUALITY)
+        }
+    }
+
+    private fun setWallpaperFromFile(f:File){
+        var uri = FileProvider.getUriForFile(this,Const.FILE_PROVIDER_AUTH,f)
+        val wallpaperIntent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri)
+        wallpaperIntent.setDataAndType(uri, "image/*")
+        wallpaperIntent.putExtra("mimeType", "image/*")
+        startActivity(wallpaperIntent)
     }
 
     private fun onFavoriteClick() {
@@ -208,14 +263,66 @@ class PhotoActivity : AppCompatActivity() {
                 checkNet()
             }
             DownloadState.DOWNLOADED -> {
+                showDeleteDialog()
             }
             DownloadState.DOWNLOADING -> {
+
             }
         }
     }
 
+    private fun showDeleteDialog() {
+        var build = AlertDialog.Builder(this)
+        build.setTitle(R.string.download_alert_title)
+        build.setMessage(R.string.delete_alert_msg)
+        build.setCancelable(true)
+        build.setPositiveButton(R.string.bt_delete) { d, w-> deletePhoto() }
+        build.setNeutralButton(R.string.bt_view) { d, w->jumpAlbum()}
+        build.setNegativeButton(R.string.bt_return,null)
+        build.create().show()
+    }
+
+    private fun jumpAlbum(){
+        var f = File(Const.DIR_DOWNLAOD, "${photo.id}.jpg")
+        if (f.exists()){
+            var intent = Intent(Intent.ACTION_VIEW);
+            var uri = FileProvider.getUriForFile(this,Const.FILE_PROVIDER_AUTH,f)
+            intent.setDataAndType(uri, "image/jpg")
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            var chooser = Intent.createChooser(intent,getString(R.string.title_select))
+            chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            chooser.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+            chooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            chooser.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            startActivity(chooser);
+        }else{
+            Toast.makeText(this, R.string.junp_failed, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun deletePhoto() {
+        var f = File(Const.DIR_DOWNLAOD, "${photo.id}.jpg")
+        try {
+            if (f.exists())
+                f.delete()
+        } catch (e: Exception) {
+
+        }
+        if (!f.exists()) {
+            Toast.makeText(this, R.string.delete_success, Toast.LENGTH_SHORT).show()
+            data.downloadState.value = DownloadState.NO_DOWNLOAD
+        } else {
+            Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show()
+            data.downloadState.value = DownloadState.DOWNLOADED
+        }
+    }
+
     private fun checkNet() {
-        downloadPhoto()
+        downloadPhoto(Const.DOWNLOAD_QUALITY)
 //        if (kv.decodeBool(Const.DOWNLOAD_NET_TYPE,false) &&
 //            !Utils.CONNECTIVITY_MANAGER.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected){
 //            var build = androidx.appcompat.app.AlertDialog.Builder(this)
@@ -231,11 +338,12 @@ class PhotoActivity : AppCompatActivity() {
 //        }
     }
 
-    private fun downloadPhoto() {
-        if (kv.decodeInt(Const.DOWNLOAD_QUALITY, -1) == -1) {
+    private fun downloadPhoto(type:String) {
+
+        if (kv.decodeInt(type, -1) == -1) {
             var build = androidx.appcompat.app.AlertDialog.Builder(this)
             build.setCancelable(true)
-            build.setTitle(R.string.quality_title)
+            build.setTitle(if(type.equals(Const.DOWNLOAD_QUALITY)) R.string.quality_title else  R.string.wallpaper_quality_title)
             var checkedItem = 2;
             var qualities = arrayOf(
                 getString(R.string.qulaity_raw),
@@ -243,30 +351,61 @@ class PhotoActivity : AppCompatActivity() {
                 getString(R.string.quality_reqular),
                 getString(R.string.quality_small)
             )
-            build.setSingleChoiceItems(qualities, 2, { d, w -> checkedItem = w })
-            build.setPositiveButton(R.string.bt_only, { d, w -> quality = checkedItem;download() })
-            build.setNegativeButton(R.string.bt_no_ask,
-                { d, w -> kv.encode(Const.DOWNLOAD_QUALITY, checkedItem);download() })
+            build.setSingleChoiceItems(qualities, 2) { d, w -> checkedItem = w }
+            build.setPositiveButton(R.string.bt_only) { d, w -> quality = checkedItem;download(type) }
+            build.setNegativeButton(R.string.bt_no_ask
+            ) { d, w ->
+                kv.encode(type, checkedItem);download(type)
+            }
             build.create().show()
         } else {
-            download()
+            download(type)
         }
 
     }
 
-    private fun download() {
+    private fun download(type:String) {
         LogUtil.d(this.javaClass, "开始下载${photo.id}.jpg")
-        data.downloadState.value = DownloadState.DOWNLOADING
+        if (type.equals(Const.WALLPAPER_QUALITY)){
+            showProgressDialog()
+        }
+        if (type.equals(Const.DOWNLOAD_QUALITY))
+            data.downloadState.value = DownloadState.DOWNLOADING
         request = DownloadManager.Request(Uri.parse(getUri(photo.urls)))
         request.setDestinationInExternalPublicDir(
             Environment.DIRECTORY_PICTURES,
-            "${Const.DIR_DOWNLAOD_NAME}/${photo.id}.jpg"
+            if (type.equals(Const.DOWNLOAD_QUALITY)) "${Const.DIR_DOWNLAOD_NAME}/${photo.id}.jpg" else "${Const.DIR_WALLPAPER_NAME}/${photo.id}.jpg"
         )
         request.setTitle(getString(R.string.downloading_title))
         request.setDescription("${photo.id}.jpg")
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
         request.setMimeType("image/jpeg")
-        kv.encode("${photo.id}.jpg", downloadManger.enqueue(request))
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or  DownloadManager.Request.NETWORK_MOBILE)
+        request.setAllowedOverMetered(true)
+        request.setAllowedOverRoaming(true)
+        var id = downloadManger.enqueue(request)
+        LogUtil.d(this.javaClass, "开始下载ID${id}")
+        if (type.equals(Const.DOWNLOAD_QUALITY)){
+            kv.encode("${photo.id}.jpg", id)
+        }else{
+            kv.encode("wallpaper_${photo.id}.jpg", id)
+        }
+
+    }
+
+    private fun showProgressDialog() {
+        downloadingProgress  = ProgressDialog(this)
+        downloadingProgress.setCancelable(false)
+        downloadingProgress.setMessage(getString(R.string.wallpaper_download))
+        downloadingProgress.isIndeterminate = true
+        downloadingProgress.setTitle(R.string.download_alert_title)
+        downloadingProgress.setButton(AlertDialog.BUTTON_NEGATIVE,getString(R.string.bt_cancel)){d,w->
+            var id = kv.decodeLong("wallpaper_${photo.id}.jpg", -1)
+            if (id!=-1L){
+                downloadManger.remove(id)
+            }
+        }
+        downloadingProgress.show()
     }
 
     private fun getUri(urls: Urls) = when (kv.decodeInt(Const.DOWNLOAD_QUALITY, -1)) {

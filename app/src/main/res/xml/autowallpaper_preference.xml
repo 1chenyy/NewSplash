@@ -1,0 +1,39 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        android:icon="@drawable/ic_switch"
+        android:key="on_off"
+        android:summaryOff="@string/setting_close_auto"
+        android:summaryOn="@string/setting_open_auto"
+        android:title="@string/setting_auto_on_off"
+        />
+    <PreferenceCategory
+        android:title="@string/auto_conditions">
+        <CheckBoxPreference
+            android:icon="@drawable/ic_wifi"
+            android:key="wifi"
+            android:summaryOff="@string/auto_any_net"
+            android:summaryOn="@string/auto_only_wifi"
+            android:title="@string/auto_net" />
+        <Preference
+            android:icon="@drawable/ic_interval"
+            android:key="time"
+            android:title="@string/auto_interval" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/auto_style">
+        <Preference
+            android:icon="@drawable/ic_shape"
+            android:key="shape"
+            android:title="@string/auto_shape" />
+        <Preference
+            android:icon="@drawable/ic_clip"
+            android:key="clip"
+            android:title="@string/auto_clip" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/auto_other">
+        <Preference
+            android:icon="@drawable/ic_screen"
+            android:key="screen"
+            android:title="@string/auto_screen" />
+    </PreferenceCategory>
+</PreferenceScreen>

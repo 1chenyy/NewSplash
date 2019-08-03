@@ -73,16 +73,22 @@ interface UnsplashAPI {
 
     @GET("/search/photos")
     fun searchPhotosNoFilter(
-        @Query("query")query:String,
+        @Query("query") query: String,
         @Query("page") page: Int,
         @Query("per_page") per_page: Int
     ): Maybe<SearchResult>
 
     @GET("/search/photos")
     fun searchPhotosWithFilter(
-        @Query("query")query:String,
+        @Query("query") query: String,
         @Query("page") page: Int,
         @Query("per_page") per_page: Int,
-        @Query("orientation")orientation:String
+        @Query("orientation") orientation: String
     ): Maybe<SearchResult>
+
+    @GET("/photos/random")
+    fun getRandomPhotoNoFilter(): Maybe<Photo>
+
+    @GET("/photos/random")
+    fun getRandomPhotoWithFilter(@Query("orientation") orientation: String): Maybe<Photo>
 }

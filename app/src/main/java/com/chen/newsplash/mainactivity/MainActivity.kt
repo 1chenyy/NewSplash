@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.chen.newsplash.R
+import com.chen.newsplash.autowallpaper.AutoWallpaperActivity
 import com.chen.newsplash.databinding.ActivityMainBinding
 import com.chen.newsplash.favoriteactivity.FavoriteActivity
 import com.chen.newsplash.mainactivity.adapter.PagerAdapter
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme_NoActionBar)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         data = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         binding.lifecycleOwner = this
@@ -161,6 +163,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_favorite -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))
+            }
+            R.id.nav_auto -> {
+                startActivity(Intent(this, AutoWallpaperActivity::class.java))
             }
 
         }

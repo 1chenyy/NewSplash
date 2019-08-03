@@ -50,11 +50,24 @@ object Const {
     val ARG_USERNAME = "username"
     val LIST_ORIENTATION = mutableListOf("","portrait","landscape","squarish")
     val DIR_DOWNLAOD = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"NewSplash")
+    val DIR_WALLPAPER = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"NewSplash/wallpaper")
     val DIR_DOWNLAOD_NAME = "NewSplash"
+    val DIR_WALLPAPER_NAME = "NewSplash/wallpaper"
     val DOWNLOAD_RAW = "0"
     val DOWNLOAD_FULL = "1"
     val DOWNLOAD_REGULAR = "2"
     val DOWNLOAD_SMALL = "3"
     val DOWNLOAD_QUALITY = "quality"
+    val WALLPAPER_QUALITY = "wallpaper_quality"
     val DOWNLOAD_NET_TYPE = "net_type"
+    val FILE_PROVIDER_AUTH = "com.chen.code.newsplash.FileProvider"
+    val DOWNLOAD_TYPE_PHOTO = 0
+    val DOWNLOAD_TYPE_WALLPAPER = 1
+    val AUTO_WALLPAPER = "auto_wallpaper"
+    val AUTO_WIFI= "wallpaper_wifi"
+    val AUTO_INTERVAL = "wallpaper_interval"
+    val AUTO_SHAPE = "wallpaper_shape"
+    val AUTO_CLIP = "wallpaper_clip"
+    val AUTO_SCREEN = "wallpaper_screen"
+    val TAG = "auto_wallpaper"
 }

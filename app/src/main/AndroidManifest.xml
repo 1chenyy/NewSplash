@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
         android:name=".NewSplash"
@@ -14,19 +15,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".autowallpaper.AutoWallpaperActivity"
+            android:label="@string/title_activity_auto_wallpaper"></activity>
+
         <provider
-            android:authorities="com.chen.code.newsplash.FileProvider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.chen.code.newsplash.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/download_dir"
-                />
+                android:resource="@xml/download_dir" />
         </provider>
+
         <activity
             android:name=".settingsactivity.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".favoriteactivity.FavoriteActivity"
             android:label="@string/title_activity_favorite"
@@ -55,7 +60,7 @@
         <activity
             android:name=".mainactivity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

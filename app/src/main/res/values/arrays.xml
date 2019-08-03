@@ -15,4 +15,64 @@
         <item>3</item>
         <item>-1</item>
     </string-array>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+    <string-array name="auto_interval">
+        <item>1 Hour</item>
+        <item>3 Hours</item>
+        <item>6 Hours</item>
+        <item>12 Hours</item>
+        <item>24 Hours</item>
+    </string-array>
+    <string-array name="auto_interval_value">
+        <item>0</item>
+        <item>1</item>
+        <item>6</item>
+        <item>12</item>
+        <item>24</item>
+    </string-array>
+
+    <string-array name="auto_shape">
+        <item>None</item>
+        <item>Portrait</item>
+        <item>Landscape</item>
+        <item>Square</item>
+    </string-array>
+    <string-array name="auto_shape_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="auto_clip">
+        <item>Top left area</item>
+        <item>In the middle</item>
+        <item>Bottom right area</item>
+    </string-array>
+    <string-array name="auto_clip_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="auto_screen">
+        <item>Home screen</item>
+        <item>Lock Screen</item>
+        <item>Both Main and Lock</item>
+    </string-array>
+    <string-array name="auto_screen_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

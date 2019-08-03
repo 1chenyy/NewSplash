@@ -88,6 +88,8 @@ abstract class BaseFragment : Fragment() {
         rv.addOnScrollListener(object : EndlessRecyclerOnScrollListener(footerAdapter){
             override fun onLoadMore(currentPage: Int) {
                 footerAdapter.clear()
+                if (errAdapter.adapterItemCount!=0)
+                    return
                 val progressItem = ProgressItem()
                 progressItem.isEnabled = false
                 footerAdapter.add(progressItem)

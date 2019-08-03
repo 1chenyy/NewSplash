@@ -116,8 +116,10 @@ class PhotoFragment : BaseFragment() {
         list.forEach {
             items.add(PhotoItem().setData(it))
         }
-        if (page == 1)
+        if (page == 1) {
+            errAdapter.clear()
             itemAdapter.clear()
+        }
         itemAdapter.add(items)
         if (page == 1)
             rv.scrollToPosition(0)
@@ -129,7 +131,10 @@ class PhotoFragment : BaseFragment() {
             swipeRefresh.isRefreshing = false
         if (page == 1) {
             data.state.value = LoadingState.LOADING_SUCCESS
-            errAdapter.add(ErrorOrNoDataItem(LoadingState.LOADING_FAILED))
+            if(itemAdapter.adapterItemCount==0){
+                errAdapter.clear()
+                errAdapter.add(ErrorOrNoDataItem(LoadingState.LOADING_FAILED))
+            }
         }else
             footerAdapter.clear()
     }

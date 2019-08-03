@@ -12,7 +12,9 @@ import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.chen.newsplash.R
+import com.chen.newsplash.autowallpaper.Conditions
 import com.chen.newsplash.useractivity.UserActivity
+import com.tencent.mmkv.MMKV
 import java.io.Closeable
 import java.lang.Exception
 
@@ -126,5 +128,16 @@ object Utils {
             return url
         }
 
+    }
+
+    fun generateConditions():Conditions{
+        var kv = MMKV.defaultMMKV()
+        return Conditions(
+            kv.decodeBool(Const.AUTO_WIFI,false),
+            kv.decodeInt(Const.AUTO_INTERVAL, 2),
+            kv.decodeInt(Const.AUTO_SHAPE, 1),
+            kv.decodeInt(Const.AUTO_CLIP, 1),
+            kv.decodeInt(Const.AUTO_SCREEN, 0)
+        )
     }
 }

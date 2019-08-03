@@ -7,4 +7,27 @@
         <item>小图</item>
         <item>每次询问</item>
     </string-array>
+    <string-array name="auto_interval">
+        <item>1小时</item>
+        <item>3小时</item>
+        <item>6小时</item>
+        <item>12小时</item>
+        <item>24小时</item>
+    </string-array>
+    <string-array name="auto_shape">
+        <item>不限</item>
+        <item>竖向</item>
+        <item>横向</item>
+        <item>正方</item>
+    </string-array>
+    <string-array name="auto_clip">
+        <item>保留左上区域</item>
+        <item>居中位置</item>
+        <item>保留右下区域</item>
+    </string-array>
+    <string-array name="auto_screen">
+        <item>仅主屏幕</item>
+        <item>仅锁屏界面</item>
+        <item>主屏幕和锁屏界面都更换</item>
+    </string-array>
 </resources>

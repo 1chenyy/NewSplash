@@ -49,11 +49,11 @@
                     app:layout_collapseParallaxMultiplier="0.7">
 
                     <com.github.piasy.biv.view.BigImageView
-                        android:transitionName="@string/shared_photo"
                         android:id="@+id/iv_top"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"
+                        android:transitionName="@string/shared_photo"
                         app:initScaleType="fitXY" />
                 </com.chen.newsplash.ui.CollapsingScrollView>
 
@@ -117,12 +117,12 @@
                     android:visibility="@{data.state == LoadingState.LOADING_SUCCESS?View.VISIBLE:View.GONE}">
 
                     <ImageButton
-                        android:transitionName="@string/shared_user"
                         android:id="@+id/ib_user"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_margin="15dp"
                         android:background="?android:attr/selectableItemBackground"
+                        android:transitionName="@string/shared_user"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,6 +137,16 @@
                         app:layout_constraintCircleAngle="90"
                         app:layout_constraintCircleRadius="120dp"
                         app:layout_constraintLeft_toRightOf="@id/ib_user"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/wallpaper"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_margin="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_wallpaper_black_24dp"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -165,26 +175,26 @@
                         app:layout_constraintTop_toBottomOf="@id/iv_eye" />
 
                     <ImageButton
-                        android:layout_marginTop="8dp"
-                        android:visibility="@{data.downloadState != DownloadState.DOWNLOADING?View.VISIBLE:View.INVISIBLE}"
                         android:id="@+id/iv_download"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginTop="8dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:src="@{data.downloadState == DownloadState.NO_DOWNLOAD?@drawable/ic_file_download_black_24dp:@drawable/ic_file_download_green_24dp}"
+                        android:visibility="@{data.downloadState != DownloadState.DOWNLOADING?View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintLeft_toRightOf="@id/iv_eye"
                         app:layout_constraintRight_toLeftOf="@id/iv_favorite"
                         app:layout_constraintTop_toBottomOf="@id/ib_user" />
 
                     <ProgressBar
-                        android:visibility="@{data.downloadState == DownloadState.DOWNLOADING?View.VISIBLE:View.GONE}"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:visibility="@{data.downloadState == DownloadState.DOWNLOADING?View.VISIBLE:View.GONE}"
                         app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintLeft_toRightOf="@id/iv_eye"
                         app:layout_constraintRight_toLeftOf="@id/iv_favorite"
-                        app:layout_constraintTop_toBottomOf="@id/ib_user"/>
+                        app:layout_constraintTop_toBottomOf="@id/ib_user" />
 
                     <TextView
                         android:id="@+id/tv_download"
@@ -199,10 +209,10 @@
                         app:layout_constraintTop_toBottomOf="@id/iv_download" />
 
                     <ImageButton
-                        android:layout_marginTop="8dp"
                         android:id="@+id/iv_favorite"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginTop="8dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:src="@{data.favorited?@drawable/ic_favorite_red_24dp:@drawable/ic_favorite_black_24dp}"
                         app:layout_constraintHorizontal_chainStyle="spread"
@@ -227,8 +237,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginTop="15dp"
+                        android:layout_marginRight="8dp"
                         android:layout_marginBottom="12dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

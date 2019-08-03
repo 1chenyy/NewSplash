@@ -89,8 +89,11 @@ class CollectionFragment : BaseFragment() {
             swipeRefresh.isRefreshing = false
         if (page == 1) {
             data.state.value = LoadingState.LOADING_SUCCESS
-            errAdapter.add(ErrorOrNoDataItem(LoadingState.LOADING_FAILED))
-        } else
+            if(itemAdapter.adapterItemCount==0){
+                errAdapter.clear()
+                errAdapter.add(ErrorOrNoDataItem(LoadingState.LOADING_FAILED))
+            }
+        }else
             footerAdapter.clear()
     }
 
