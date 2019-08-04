@@ -86,5 +86,5 @@
     <string name="setting_wallpaper_quality">壁纸下载质量</string>
     <string name="title_wallpaper_quality">请选择下载壁纸时的图片质量</string>
     <string name="title_download_quality">请选择下载图片的质量</string>
-    <string name="download_notify">即将下载到</string>
+    <string name="download_notify">即将下载到Pictures/NewSplash目录</string>
 </resources>

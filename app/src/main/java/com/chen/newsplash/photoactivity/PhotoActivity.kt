@@ -386,6 +386,7 @@ class PhotoActivity : AppCompatActivity() {
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or  DownloadManager.Request.NETWORK_MOBILE)
         request.setAllowedOverMetered(true)
         request.setAllowedOverRoaming(true)
+        Toast.makeText(this,R.string.download_notify,Toast.LENGTH_SHORT).show()
         var id = downloadManger.enqueue(request)
         LogUtil.d(this.javaClass, "开始下载ID${id}")
         if (type.equals(Const.DOWNLOAD_QUALITY)){
