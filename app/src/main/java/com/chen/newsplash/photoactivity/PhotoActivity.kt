@@ -182,11 +182,14 @@ class PhotoActivity : AppCompatActivity() {
                 var id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) ?: -1
                 if (id != -1L && id == kv.decodeLong("${photo.id}.jpg", -1)) {
                     data.downloadState.value = checkCursor(id)
+                    kv.removeValueForKey("${photo.id}.jpg")
                 }
                 if (id != -1L && id  ==kv.decodeLong("wallpaper_${photo.id}.jpg", -1)){
                     downloadingProgress.dismiss()
+                    kv.removeValueForKey("wallpaper_${photo.id}.jpg")
                     var f = File(Const.DIR_WALLPAPER,"${photo.id}.jpg")
-                    setWallpaperFromFile(f)
+                    if(f.exists())
+                        setWallpaperFromFile(f)
                 }
             }
         }

@@ -121,4 +121,6 @@
     <string name="auto_screen">Screenn</string>
     <string name="setting_wallpaper_quality">Wallpaper quality</string>
     <string name="title_wallpaper_quality">Please select the image quality when downloading the wallpaper</string>
+    <string name="title_download_quality">Please select the quality of the images to download</string>
+    <string name="download_notify">Download to</string>
 </resources>

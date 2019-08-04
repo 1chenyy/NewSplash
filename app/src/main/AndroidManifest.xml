@@ -11,13 +11,15 @@
     <application
         android:name=".NewSplash"
         android:allowBackup="true"
-        android:icon="@drawable/ic_app_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".autowallpaper.AutoWallpaperActivity"
-            android:label="@string/title_activity_auto_wallpaper"></activity>
+            android:label="@string/title_activity_auto_wallpaper"
+            android:screenOrientation="portrait"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -31,10 +33,12 @@
 
         <activity
             android:name=".settingsactivity.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".favoriteactivity.FavoriteActivity"
             android:label="@string/title_activity_favorite"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photoactivity.FullPhotoActivity"
@@ -44,6 +48,7 @@
         <activity
             android:name=".searchactivity.SearchActivity"
             android:label="@string/title_activity_search"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".useractivity.UserActivity"
@@ -52,14 +57,17 @@
         <activity
             android:name=".collectionactivity.CollectionActicity"
             android:label="@string/title_activity_collection_acticity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photoactivity.PhotoActivity"
             android:label="@string/title_activity_photo"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".mainactivity.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

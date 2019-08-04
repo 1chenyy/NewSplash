@@ -19,7 +19,7 @@
     <Preference
         android:icon="@drawable/ic_wallapper_setting"
         android:key="wallpaper"
-        android:title="@string/setting_download_quality"
+        android:title="@string/setting_wallpaper_quality"
         />
 
 </PreferenceScreen>

@@ -240,7 +240,11 @@ class SettingsActivity : AppCompatActivity() {
         private fun showSelect(type: Int) {
             var build = androidx.appcompat.app.AlertDialog.Builder(context!!)
             build.setCancelable(true)
-            build.setTitle(R.string.title_wallpaper_quality)
+            if (type == 0) {
+                build.setTitle(R.string.title_download_quality)
+            } else {
+                build.setTitle(R.string.title_wallpaper_quality)
+            }
             var checkedItem: Int
             if (type == 0) {
                 checkedItem = kv.decodeInt(Const.DOWNLOAD_QUALITY, -1)
