@@ -144,14 +144,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (item.itemId) {
             R.id.nav_photo -> {
-                current = 0
-                data.pos.value = 0
-                setPhotoFragment()
+                if (current != 0) {
+                    current = 0
+                    data.pos.value = 0
+                    setPhotoFragment()
+                }
+
             }
             R.id.nav_album -> {
-                current = 1
-                data.pos.value = 1
-                setCollectionFragment()
+                if (current != 1) {
+                    current = 1
+                    data.pos.value = 1
+                    setCollectionFragment()
+                }
+
             }
             R.id.nav_search -> {
 

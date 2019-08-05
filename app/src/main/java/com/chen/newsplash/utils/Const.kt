@@ -70,4 +70,5 @@ object Const {
     val AUTO_CLIP = "wallpaper_clip"
     val AUTO_SCREEN = "wallpaper_screen"
     val TAG = "auto_wallpaper"
+    val AUTO_RETRY = "retry"
 }

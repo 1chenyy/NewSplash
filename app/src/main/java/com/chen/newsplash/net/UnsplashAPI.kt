@@ -5,6 +5,7 @@ import com.chen.newsplash.models.photos.Photo
 import com.chen.newsplash.models.search.SearchResult
 import com.chen.newsplash.models.user.User
 import io.reactivex.Maybe
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -87,8 +88,8 @@ interface UnsplashAPI {
     ): Maybe<SearchResult>
 
     @GET("/photos/random")
-    fun getRandomPhotoNoFilter(): Maybe<Photo>
+    fun getRandomPhotoNoFilter(): Call<Photo>
 
     @GET("/photos/random")
-    fun getRandomPhotoWithFilter(@Query("orientation") orientation: String): Maybe<Photo>
+    fun getRandomPhotoWithFilter(@Query("orientation") orientation: String): Call<Photo>
 }

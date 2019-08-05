@@ -78,8 +78,8 @@ class AutoWallpaperActivity : AppCompatActivity() {
 
         override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
             if ("on_off".equals(preference?.key)) {
-                if (!(newValue as Boolean)){
-                    LogUtil.d(this.javaClass,"已关闭自动更换壁纸")
+                if (!(newValue as Boolean)) {
+                    LogUtil.d(this.javaClass, "已关闭自动更换壁纸")
                     WorkManager.getInstance(context!!).cancelAllWorkByTag(Const.TAG)
                 }
                 kv.encode(Const.AUTO_WALLPAPER, newValue as Boolean)
@@ -87,7 +87,7 @@ class AutoWallpaperActivity : AppCompatActivity() {
                 isChange = true
             }
             if ("wifi".equals(preference?.key)) {
-                kv.encode(Const.AUTO_WIFI,newValue as Boolean)
+                kv.encode(Const.AUTO_WIFI, newValue as Boolean)
                 isChange = true
             }
             return true
@@ -95,8 +95,8 @@ class AutoWallpaperActivity : AppCompatActivity() {
 
         override fun onDestroy() {
             super.onDestroy()
-            if (isChange){
-                LogUtil.d(this.javaClass,"配置发生改变，重新启动自动更换壁纸")
+            if (isChange) {
+                LogUtil.d(this.javaClass, "配置发生改变，重新启动自动更换壁纸")
                 startAutoWorker()
             }
 
@@ -163,7 +163,7 @@ class AutoWallpaperActivity : AppCompatActivity() {
             function.isChecked = isEnable
             loadState(isEnable)
             loadSummary()
-            if (Build.VERSION.SDK_INT<24)
+            if (Build.VERSION.SDK_INT < 24)
                 clip.isVisible = false
         }
 
@@ -181,35 +181,50 @@ class AutoWallpaperActivity : AppCompatActivity() {
             }
         }
 
-        private fun startAutoWorker(){
-            if (function.isChecked){
-                LogUtil.d(this.javaClass,"启动自动更换壁纸")
+        private fun startAutoWorker() {
+            if (function.isChecked) {
+                LogUtil.d(this.javaClass, "启动自动更换壁纸")
                 WorkManager.getInstance(context!!).cancelAllWorkByTag(Const.TAG)
-                var constraints:Constraints
-                if (wifi.isChecked){
-                    constraints = Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
-                }else{
+                var constraints: Constraints
+                if (wifi.isChecked) {
                     constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.UNMETERED)
                         .build()
+                } else {
+                    constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
                 }
                 var time = kv.decodeInt(Const.AUTO_INTERVAL, 2).toLong()
-                when(time){
-                    0L->{time = 1}
-                    1L->{time = 3}
-                    2L->{time = 6}
-                    3L->{time = 12}
-                    4L->{time = 24}
+                when (time) {
+                    0L -> {
+                        time = 1
+                    }
+                    1L -> {
+                        time = 3
+                    }
+                    2L -> {
+                        time = 6
+                    }
+                    3L -> {
+                        time = 12
+                    }
+                    4L -> {
+                        time = 24
+                    }
                 }
                 var data = Data.Builder()
-                    .putInt(Const.AUTO_SHAPE,kv.decodeInt(Const.AUTO_SHAPE, 1))
-                    .putInt(Const.AUTO_CLIP,kv.decodeInt(Const.AUTO_CLIP, 1))
-                    .putInt(Const.AUTO_SCREEN,kv.decodeInt(Const.AUTO_SCREEN, 0))
+                    .putInt(Const.AUTO_SHAPE, kv.decodeInt(Const.AUTO_SHAPE, 1))
+                    .putInt(Const.AUTO_CLIP, kv.decodeInt(Const.AUTO_CLIP, 1))
+                    .putInt(Const.AUTO_SCREEN, kv.decodeInt(Const.AUTO_SCREEN, 0))
                     .build()
-                var request = PeriodicWorkRequest.Builder(AutoWallpaperWorker::class.java,time,TimeUnit.HOURS)
+                var request = PeriodicWorkRequest.Builder(AutoWallpaperWorker::class.java, time, TimeUnit.HOURS)
                     .setConstraints(constraints)
+                    .setBackoffCriteria(
+                        BackoffPolicy.LINEAR,
+                        PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
+                        TimeUnit.MILLISECONDS
+                    )
                     .setInputData(data)
                     .addTag(Const.TAG)
                     .build()
