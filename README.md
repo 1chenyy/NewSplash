@@ -12,7 +12,9 @@ Unsplash的非官方客户端，使用kotlin+Jetpack开发，基本功能如下
 - 搜索图片，可筛选不同形状的图片
 - 自动更换壁纸，可设定网络环境，更换间隔、图片形状、自动剪裁等功能
 
+
 预览图如下
+
 ![](https://raw.githubusercontent.com/chenyaoyang/NewSplash/master/screenshot/newsplash1.jpg)
 ![](https://raw.githubusercontent.com/chenyaoyang/NewSplash/master/screenshot/newsplash2.jpg)
 ![](https://raw.githubusercontent.com/chenyaoyang/NewSplash/master/screenshot/newsplash3.jpg)
